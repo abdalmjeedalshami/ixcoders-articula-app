@@ -1,0 +1,33 @@
+img {
+  max-width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: relative;
+  color: black;
+}
+
+a:hover {
+  color: black;
+}
+
+.color-muted {
+  color: var(--muted-color);
+}
+
+.my-bg-black {
+  background-color: var(--secondary-color);
+}
+
+.my-banner {
+  background-color: rgba(255, 0, 0, 0.158);
+}
+
+.my-button {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

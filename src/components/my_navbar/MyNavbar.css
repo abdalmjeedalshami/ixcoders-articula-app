@@ -1,0 +1,44 @@
+.navbar-nav a {
+  text-decoration: none;
+  color: #8C94A3;
+  border-top: 2px solid transparent;
+  margin-inline-end: 1rem;
+}
+
+.navbar-nav a:hover {
+  color: var(--primary-color);
+}
+
+.navbar-nav a.active {
+  color: white;
+  border-top: 2px solid var(--primary-color);
+}
+
+.navbar-toggler {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: white;
+}
+
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+  color: var(--primary-color);
+}
+
+.navbar-toggler:hover {
+  border: 1px solid var(--primary-color);
+}
+
+.offcanvas-body a {
+  color: white;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.offcanvas-body a:hover {
+  color: red;
+}

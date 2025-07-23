@@ -1,0 +1,11 @@
+.social-icon {
+  background-color: #363B4766;
+  width: 40px;
+  height: 40px;
+  transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: var(--primary-color); /* Change this to match your theme */
+  text-decoration: none;
+}

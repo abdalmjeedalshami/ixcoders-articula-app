@@ -1,0 +1,9 @@
+.skew-left {
+  transform: none;
+}
+
+@media (min-width: 992px) {
+  .skew-left {
+    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
