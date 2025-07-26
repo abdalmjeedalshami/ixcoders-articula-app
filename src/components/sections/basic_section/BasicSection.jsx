@@ -21,9 +21,9 @@ const BasicSection = ({ split, text, button, image, classes }) => {
                 style={{
                   height: "300px",
                   backgroundImage: `url(${image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "8px",
+                  backgroundSize: "contain",
+                  backgroundPosition: "top",
+                  backgroundRepeat: "no-repeat"
                 }}
               ></div>
             ) : (

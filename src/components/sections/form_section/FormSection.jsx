@@ -5,10 +5,7 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 const FormSection = () => {
   return (
-    <div
-      className="py-5"
-      style={{ backgroundColor: colors.sectionBackground }}
-    >
+    <div className="py-5" style={{ backgroundColor: colors.sectionBackground }}>
       {" "}
       {/* Light grey background */}
       <Container>
@@ -27,7 +24,7 @@ const FormSection = () => {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="flex-column-reverse flex-md-row">
           {/* Left Column: Contact Details */}
           <Col md={6} className="pe-md-5">
             {" "}
@@ -98,7 +95,7 @@ const FormSection = () => {
           </Col>
 
           {/* Right Column: Contact Form */}
-          <Col md={6}>
+          <Col md={6} className="mb-4">
             <div className="bg-white p-5 fs-3">
               <p
                 className="mb-2"

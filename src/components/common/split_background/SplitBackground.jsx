@@ -3,7 +3,7 @@ const SplitBackground = ({ image }) => {
     <div
       className="d-flex gap-3 w-100"
       style={{
-        height: "500px",
+        height: "350px",
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "top",

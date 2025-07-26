@@ -8,29 +8,30 @@ const BranchesSection = ({ title, subtitle, branches }) => {
         {title}
       </strong>
       <p className="mb-4" style={{ color: colors.textMuted.welcome }}>
-        {subtitle}{" "}
+        {subtitle}
       </p>
+
       <Container>
         <Row>
           {branches.map((branch) => (
-            <Col key={branch.id} md={3}>
+            <Col key={branch.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
               <div
-                className="p-3 text-center d-flex align-items-end"
+                className="p-3 text-center d-flex justify-content-center align-items-end"
                 style={{
-                  height: "400px",
-                  background: `url(${branch.image})`,
-                  backgroundPosition: "cetner",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
+                  height: "300px",
+                  background: `url(${branch.image}) center / cover no-repeat`,
                 }}
               >
-                <div className="py-3 px-5 bg-white">
+                <div
+                  className="py-3 px-4 bg-white w-100"
+                  style={{ maxWidth: "90%" }}
+                >
                   {branch.isMain && (
                     <p
                       className="mb-1 text-capitalize fw-bold"
-                      style={{ color: colors.primary, fontSize: ".7rem" }}
+                      style={{ color: colors.primary, fontSize: ".75rem" }}
                     >
-                      mAIN BRANCHE
+                      Main Branch
                     </p>
                   )}
                   <p
