@@ -4,6 +4,7 @@ const colors = {
   muted_background: "#F0F2F5",
 
   borderAbsolutCard: "#E9EAF0",
+  borderContact: "#FFDDD1",
 
   light: "#f8f9fa",
   dark: "#343a40",
@@ -13,6 +14,7 @@ const colors = {
 
   backgrounds: {
     navbar: "#1D2026",
+    about: "#FFEEE8",
   },
 
   textMuted: {
@@ -22,6 +24,7 @@ const colors = {
     articleAuth: "#7B7B7B",
     month: "#A1A5B3",
     footer: "#B7BAC7",
+    aboutHeader: "#E9EAF0",
   },
 
   background: "#ffffff",

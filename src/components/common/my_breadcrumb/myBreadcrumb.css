@@ -1,0 +1,20 @@
+.breadcrumb-item-custom {
+  color: red;
+  /* color for inactive items */
+}
+
+.breadcrumb-item-active-custom {
+  color: #0004ff;
+  /* color for active item (red-ish, for example) */
+  font-weight: bold;
+}
+
+.custom-link {
+  color: var(--muted-color-breadcrumb);
+}
+
+.custom-link:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-decoration-color: var(--primary-color);
+}

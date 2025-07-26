@@ -1,0 +1,15 @@
+.quote-cloud {
+  background: #f0f8ff;
+  color: #333;
+  position: relative;
+}
+
+/* Speech bubble tail */
+.quote-cloud::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 15px solid transparent;
+  border-top-color: red;
+}

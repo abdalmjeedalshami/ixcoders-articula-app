@@ -31,3 +31,42 @@ a:hover {
 .my-button {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* src/App.css or src/ContactForm.module.css */
+
+/* Target all Bootstrap form controls on focus */
+.form-control:focus {
+  border-color: yourAccentColor;
+  /* Optional: if you also want to change border color */
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.25);
+  /* Your desired color (e.g., #ff6b35) with transparency */
+  outline: 0;
+  /* Important: remove default browser outline */
+}
+
+/* If you want different focus styles for specific inputs, use a class: */
+.my-custom-input:focus {
+  border-color: #00bcd4;
+  /* A different color */
+  box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+}
+
+.responsive-height {
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .responsive-height {
+    height: 75%;
+  }
+}
+
+.responsive-width {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .responsive-width {
+    width: 75%;
+  }
+}

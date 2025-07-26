@@ -1,6 +1,6 @@
 import { Row } from "react-bootstrap";
-import WelcomeSection from "../../components/welcom_section/WelcomeSection";
-import AuthorSection from "../../components/author_section/AuthorSection";
+import WelcomeSection from "../../components/sections/welcom_section/WelcomeSection";
+import AuthorSection from "../../components/sections/author_section/AuthorSection";
 import welcomeImage from "../../assets/images/welcome.jpg";
 import articleImage from "../../assets/images/article_image.png";
 import cpuIcon from "../../assets/icons/cpu.svg";
@@ -11,15 +11,14 @@ import handIcon from "../../assets/icons/handshake.svg";
 import megaphoneIcon from "../../assets/icons/megaphone_simple.svg";
 import receiptIcon from "../../assets/icons/receipt.svg";
 import companyLogo from "../../assets/icons/AMG.CO.svg";
-import LatestArticlesSection from "../../components/latest_articles_section/LatestArticlesSection";
+import LatestArticlesSection from "../../components/sections/latest_articles_section/LatestArticlesSection";
 import authorImage from "../../assets/images/author.png";
-import TrustedSection from "../../components/trusted_section/TrustedSection";
-import MyFooter from "../../components/my_footer/MyFooter";
-import MySection from "../../components/my_section/MySection";
-import CategoryCard from "../../components/category_card/CategoryCard";
-import JobCard from "../../components/job_card/JobCard";
-import MySwiper from "../../components/my_swiper/MySwiper";
-
+import TrustedSection from "../../components/sections/trusted_section/TrustedSection";
+import MyFooter from "../../components/layout/my_footer/MyFooter";
+import MySection from "../../components/sections/my_section/MySection";
+import CategoryCard from "../../components/cards/category_card/CategoryCard";
+import JobCard from "../../components/cards/job_card/JobCard";
+import MySwiper from "@components/sliders/my_swiper/MySwiper";
 
 const categories = [
   {
@@ -351,9 +350,7 @@ const HomePage = () => {
         header={{
           title: "Top Writers",
         }}
-        body={
-          <MySwiper list={writers} />
-        }
+        body={<MySwiper list={writers} />}
         footer={{
           text: "Thousands of users waiting for a Articles. Start writing & earning now!.",
           tail: "Become an Author",
@@ -361,6 +358,8 @@ const HomePage = () => {
       />
 
       <TrustedSection
+        title="6.3k trusted companies"
+        subtitle="Nullam egestas tellus at enim ornare tristique. Class aptent taciti sociosqu ad litora torquent per conubia nostra."
         companies={[
           {
             id: 1,

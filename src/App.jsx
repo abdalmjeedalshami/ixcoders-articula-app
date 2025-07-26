@@ -4,16 +4,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./theme/colors";
 import "./styles/_variables.css";
-import MyNavbar from "./components/my_navbar/MyNavbar";
+import MyNavbar from "./components/layout/my_navbar/MyNavbar";
 import Login from "./pages/login/Login";
 import About from "./pages/about/About";
 import Contact from "./pages/contact/Contact";
 import HomePage from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import NotFound from "./pages/not_found/NotFound";
-import MyAppBar from "./components/my_appBar/MyAppBar";
+import MyAppBar from "./components/layout/my_appBar/MyAppBar";
 import logoIcon from "./assets/icons/GraduationCap.svg";
-import TestNavbar from "./components/TestComp2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
