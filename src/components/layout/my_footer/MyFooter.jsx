@@ -10,7 +10,8 @@ import {
 } from "react-icons/fa";
 import colors from "../../../theme/colors";
 import logo from "../../../assets/icons/GraduationCap.svg";
-import "./MyFooter.css"
+import "./MyFooter.css";
+import { NavLink } from "react-router";
 
 const MyFooter = () => {
   return (
@@ -116,7 +117,9 @@ const MyFooter = () => {
               style={{ color: colors.textMuted.navbar }}
             >
               <li>Help Center</li>
-              <li>FAQs</li>
+              <li>
+                <NavLink to={"/faqs"}>FAQs</NavLink>
+              </li>
               <li>Terms & Condition</li>
               <li>Privacy Policy</li>
             </ul>

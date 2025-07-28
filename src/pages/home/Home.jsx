@@ -204,7 +204,7 @@ const HomePage = () => {
         }
         footer={{
           text: "We have more category & subcategory.",
-          tail: "Browse All",
+          tail: { text: "Browse All", route: "/jobs" },
         }}
       />
 
@@ -339,7 +339,7 @@ const HomePage = () => {
         }
         footer={{
           text: "We have more job Opportunities.",
-          tail: "Browse All",
+          tail: { text: "Browse All", route: "/jobs" },
         }}
       />
 

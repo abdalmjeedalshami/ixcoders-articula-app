@@ -1,39 +1,34 @@
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
 import colors from "../../../theme/colors";
 import { NavLink } from "react-router";
 import "./myBreadcrumb.css";
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
-
-export default function ActiveLastBreadcrumb() {
+export default function MyBreadcrumb({ title, path }) {
   return (
     <div
       className="text-center py-4"
       style={{ backgroundColor: colors.sectionBackground }}
     >
-      <div
-        className="d-inline-flex flex-column"
-        role="presentation"
-        onClick={handleClick}
-      >
-        <p className="fs-4 fw-bold">About</p>
+      <div className="d-inline-flex flex-column">
+        <p className="fs-4 fw-bold">{title}</p>
         <Breadcrumbs aria-label="breadcrumb">
-          <NavLink className="py-1 custom-link" to="/">
-            Home
-          </NavLink>
-
-          <Link
-            underline="hover"
-            color="text.primary"
-            href="/material-ui/react-breadcrumbs/"
-            aria-current="page"
-          >
-            About
-          </Link>
+          {path.map((item, index) => {
+            const isLast = index === path.length - 1;
+            return isLast ? (
+              <Typography
+                key={index}
+                className="py-1 custom-link"
+                color="text.primary"
+              >
+                {item.label}
+              </Typography>
+            ) : (
+              <NavLink key={index} className="py-1 custom-link" to={item.to}>
+                {item.label}
+              </NavLink>
+            );
+          })}
         </Breadcrumbs>
       </div>
     </div>

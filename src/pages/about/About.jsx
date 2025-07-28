@@ -48,10 +48,15 @@ const quotes = [
   },
 ];
 
+const breadcrumbPath = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+];
+
 const About = () => {
   return (
     <>
-      <MyBreadcrumb />
+      <MyBreadcrumb title={"About"} path={breadcrumbPath} />
 
       <BasicSection
         classes={"mb-5"}

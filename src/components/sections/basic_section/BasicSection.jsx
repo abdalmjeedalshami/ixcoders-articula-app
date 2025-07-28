@@ -2,32 +2,43 @@ import { Container, Row, Col } from "react-bootstrap";
 import colors from "../../../theme/colors";
 import SplitBackground from "../../../components/common/split_background/SplitBackground";
 import MyButton from "../../common/my_button/MyButton";
+import { FaCheckCircle } from "react-icons/fa";
 
-const BasicSection = ({ split, text, button, image, classes }) => {
+const BasicSection = ({
+  backgroundColor,
+  reversed,
+  split,
+  text,
+  button,
+  image,
+  classes,
+  checkedList,
+}) => {
   const { date, title, desc } = text;
 
   return (
-    <div>
+    <div style={{ backgroundColor: backgroundColor }}>
       <Container className={`pt-5 ${classes}`}>
         <Row className="align-items-center">
-          {/* Image column first on mobile */}
           <Col
             xs={12}
             md={6}
-            className="order-first order-md-last mt-4 mt-md-0"
+            className={`${
+              reversed ? "order-md-first" : "order-md-last"
+            } order-first mt-4 mt-md-0`}
           >
-            {!split ? (
+            {split ? (
+              <SplitBackground image={image} />
+            ) : (
               <div
                 style={{
                   height: "300px",
                   backgroundImage: `url(${image})`,
                   backgroundSize: "contain",
                   backgroundPosition: "top",
-                  backgroundRepeat: "no-repeat"
+                  backgroundRepeat: "no-repeat",
                 }}
               ></div>
-            ) : (
-              <SplitBackground image={image} />
             )}
           </Col>
 
@@ -60,6 +71,27 @@ const BasicSection = ({ split, text, button, image, classes }) => {
                   <MyButton text={button.text} />
                 </div>
               )}
+              {checkedList &&
+                checkedList.map((item, index) => (
+                  <Row key={index}>
+                    <Col md={12}>
+                      <div className="bg-white p-4 mb-3">
+                        <Row>
+                          <Col md={1}>
+                            <FaCheckCircle
+                              color={colors.checkColor}
+                              size={"2rem"}
+                            />
+                          </Col>
+                          <Col md={11}>
+                            <p className="fw-bold">{item.title}</p>
+                            <p>{item.desc}</p>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Col>
+                  </Row>
+                ))}
             </div>
           </Col>
         </Row>

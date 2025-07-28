@@ -15,6 +15,8 @@ import MyAppBar from "./components/layout/my_appBar/MyAppBar";
 import logoIcon from "./assets/icons/GraduationCap.svg";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Jobs from "./pages/jobs/Jobs";
+import Faqs from "./pages/faqs/faqs";
 
 function App() {
   useEffect(() => {
@@ -32,6 +34,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/faqs" element={<Faqs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFound />} />

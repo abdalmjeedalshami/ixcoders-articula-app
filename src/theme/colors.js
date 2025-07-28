@@ -3,6 +3,8 @@ const colors = {
   secondary: "#FFEEE8",
   muted_background: "#F0F2F5",
 
+  checkColor: "#23BD33",
+
   borderAbsolutCard: "#E9EAF0",
   borderContact: "#FFDDD1",
 

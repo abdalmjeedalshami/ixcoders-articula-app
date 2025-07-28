@@ -9,7 +9,7 @@ import chartIcon from "../../../assets/icons/bar-chart.svg";
 const JobCard = ({ job }) => {
   return (
     <Col xs={12} xl={6} className="d-flex">
-      <div className="job-card mb-4 rounded-0 w-100">
+      <div className="job-card mb-4 rounded-0 w-100 bg-white">
         <Row className="g-0">
           {/* Image Section */}
           <Col xs={12} md={4}>
@@ -27,7 +27,7 @@ const JobCard = ({ job }) => {
             md={8}
             className="d-flex flex-column justify-content-between"
           >
-            <div className="p-3 d-flex flex-column justify-content-between h-100">
+            <div className="p-3 d-flex flex-column justify-content-start gap-3 h-100">
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <MyTag tag={job.tag} />
                 <p className="m-0" style={{ color: colors.blackBackground }}>

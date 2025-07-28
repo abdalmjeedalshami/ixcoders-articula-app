@@ -2,7 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
 
-const CategoryCard = ({ category }) => {
+const CategoryCard = ({ big, category }) => {
   return (
     <Col
       key={category.id}
@@ -34,11 +34,17 @@ const CategoryCard = ({ category }) => {
                 <img src={category.image} alt={category.name} />
               </div>
             </Col>
+            {big ? <Col></Col> : ""}
+
             <Col xs={9}>
               <p className="mb-1 fw-bold text-wrap">{category.name}</p>
-              <p className="m-0" style={{ color: colors.textMuted.category }}>
-                {category.articleCount} Articles
-              </p>
+              {big ? (
+                ""
+              ) : (
+                <p className="m-0" style={{ color: colors.textMuted.category }}>
+                  {category.articleCount} Articles
+                </p>
+              )}
             </Col>
           </Row>
         </div>
