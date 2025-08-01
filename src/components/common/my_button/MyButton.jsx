@@ -4,11 +4,12 @@ import tinycolor from "tinycolor2";
 import colors from "../../../theme/colors";
 
 const MyButton = ({
+  disabled = false,
   type = "",
   text = "Click me",
   color = "#fff",
   backgroundColor = colors.primary,
-  route = "/",
+  route = "",
   classes = "",
   hoverColor = tinycolor(color).lighten(50).toString(),
   hoverBackgroundColor = tinycolor(backgroundColor).darken(15).toString(),
@@ -24,6 +25,7 @@ const MyButton = ({
 
   return (
     <button
+      disabled={disabled}
       type={type}
       className={`my-button rounded-0 border-0 px-4 py-2 ${classes}`}
       onClick={() => navigate(route)}

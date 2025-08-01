@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
 const Login = () => {
-  const [loginData, setLoginData] = useState({
+  const [unputData, setInputData] = useState({
     username: "",
     password: "",
   });
 
-  const [current_user, setCurrent_user] = useState({
-    user_id: "",
-    user_name: "",
+  const [user, setUser] = useState({
+    id: "",
+    roles: [],
+    username: "",
+    csrf_token: "",
     logout_token: "",
   });
 
@@ -30,8 +32,8 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: loginData.username,
-        pass: loginData.password,
+        name: unputData.username,
+        pass: unputData.password,
       }),
     })
       .then((res) => {
@@ -46,15 +48,20 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
-        setCurrent_user({
-          user_id: data.current_user.uid,
-          user_name: data.current_user.name,
+
+        setUser({
+          id: data.current_user.uid,
+          roles: data.current_user.roles,
+          username: data.current_user.name,
+          csrf_token: data.csrf_token,
           logout_token: data.logout_token,
         });
 
-        localStorage.setItem("userID", data.current_user.uid);
-        localStorage.setItem("userName", data.current_user.name);
+        localStorage.setItem("user_id", data.current_user.uid);
+        localStorage.setItem("username", data.current_user.name);
+        localStorage.setItem("csrf_token", data.csrf_token);
         localStorage.setItem("logout_token", data.logout_token);
+        localStorage.setItem("roles", data.current_user.roles);
       })
       .catch((err) => {
         console.log(err);
@@ -67,10 +74,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("userID") && localStorage.getItem("userName")) {
-      setCurrent_user({
-        user_id: localStorage.getItem("userID"),
-        user_name: localStorage.getItem("userName"),
+    if (localStorage.getItem("user_id") && localStorage.getItem("username")) {
+      setUser({
+        id: localStorage.getItem("user_id"),
+        username: localStorage.getItem("username"),
+        csrf_token: localStorage.getItem("csrf_token"),
         logout_token: localStorage.getItem("logout_token"),
       });
     }
@@ -87,10 +95,10 @@ const Login = () => {
   //     )
   // }
 
-  if (current_user.user_id != "" && current_user.user_name != "") {
+  if (user.id != "" && user.username != "") {
     return (
       <h1 className="mt-5">
-        Hello {current_user.user_name}, your #ID is {current_user.user_id}
+        Hello {user.username}, your csrf token is {user.csrf_token}
       </h1>
     );
   }
@@ -111,8 +119,8 @@ const Login = () => {
             className="form-control"
             id="username"
             onInput={(e) => {
-              setLoginData({
-                ...loginData,
+              setInputData({
+                ...unputData,
                 username: e.target.value,
               });
             }}
@@ -126,8 +134,8 @@ const Login = () => {
             className="form-control"
             id="password"
             onInput={(e) => {
-              setLoginData({
-                ...loginData,
+              setInputData({
+                ...unputData,
                 password: e.target.value,
               });
             }}

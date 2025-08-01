@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import MyForm from "../../components/common/my_form/MyForm";
 import registerImage from "../../../public/images/register/register.png";
 import colors from "../../theme/colors";
+import MyButton from "../../components/common/my_button/MyButton";
+import { UserModel } from "../../models/UserModel";
+import MySpinner from "../../components/common/MySpinner/MySpinner";
 
 const Register = () => {
-  const [registerData, setRegisterData] = useState({
+  const [inputData, setInputData] = useState({
     name: {
       value: "",
     },
@@ -29,7 +31,7 @@ const Register = () => {
     },
   });
 
-  const [current_user, setCurrent_user] = useState({
+  const [user, setUser] = useState({
     uid: [
       {
         value: null,
@@ -98,16 +100,21 @@ const Register = () => {
       },
     ],
     user_picture: [],
+    password: [
+      {
+        value: "",
+      },
+    ],
   });
 
   const [initializing, setInitializing] = useState(true);
-  const [logInError, setLogInError] = useState();
+  const [registerError, setRegisterError] = useState();
   const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    setLogInError(false);
+    setRegisterError(false);
 
     setLoading(true);
 
@@ -118,25 +125,25 @@ const Register = () => {
       },
       body: JSON.stringify({
         name: {
-          value: registerData.name,
+          value: inputData.name,
         },
         field_name: {
-          value: registerData.field_name,
+          value: inputData.field_name,
         },
         field_surname: {
-          value: registerData.field_surname,
+          value: inputData.field_surname,
         },
         mail: {
-          value: registerData.mail,
+          value: inputData.mail,
         },
         field_mobile: {
-          value: registerData.field_mobile,
+          value: inputData.field_mobile,
         },
         field_gender: {
-          target_id: registerData.field_gender,
+          target_id: inputData.field_gender,
         },
         pass: {
-          value: registerData.pass,
+          value: inputData.pass.value,
         },
       }),
     })
@@ -152,7 +159,7 @@ const Register = () => {
       })
       .then((data) => {
         console.log(data);
-        setCurrent_user({
+        setUser({
           uid: data.uid,
           uuid: data.uuid,
           langcode: data.langcode,
@@ -167,14 +174,20 @@ const Register = () => {
           field_surname: data.field_surname,
           user_picture: data.user_picture,
         });
+        console.log("ggggggggggggg");
+        console.log(inputData.pass.value);
 
-        localStorage.setItem("userID", data.uid[0].value);
-        localStorage.setItem("userName", data.name[0].value);
-        localStorage.setItem("userPhone", data.field_mobile[0].value);
+        // setUser({
+        //   ...user,
+        //   password: inputData.pass.value
+        // })
+
+        localStorage.setItem("username", data.name[0].value);
+        localStorage.setItem("password", inputData.pass.value);
       })
       .catch((err) => {
         console.log(err);
-        setLogInError(err.message);
+        setRegisterError(err.message);
       })
       .finally(() => {
         console.log("Fetch ended");
@@ -183,11 +196,10 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("userID") && localStorage.getItem("userName")) {
-      setCurrent_user({
-        uid: [{ value: localStorage.getItem("userID") }],
-        name: [{ value: localStorage.getItem("userName") }],
-        field_mobile: [{ value: localStorage.getItem("userPhone") }],
+    if (localStorage.getItem("username") && localStorage.getItem("password")) {
+      setUser({
+        name: [{ value: localStorage.getItem("username") }],
+        password: [{ value: localStorage.getItem("password") }],
       });
     }
 
@@ -197,66 +209,30 @@ const Register = () => {
   if (initializing) {
     return <></>;
   }
-  // if(loading) {
-  //     return (
-  //         <>Loading..........</>
-  //     )
-  // }
 
-  if (current_user.uid[0].value != "" && current_user.name[0].value != "") {
+  if (loading) {
     return (
-      <h1 className="mt-5">
-        Hello {current_user.name[0].value}, your #ID is{" "}
-        {current_user.uid[0].value} and your phone is:{" "}
-        {current_user.field_mobile[0].value}
-      </h1>
+      <>
+        <div
+          style={{ height: "500px" }}
+          className="d-flex justify-content-center align-items-cetner"
+        >
+          <MySpinner />
+        </div>
+      </>
     );
   }
 
-  const fields = [
-    {
-      row: true,
-      fields: [
-        { name: "firstName", label: "Full Name", placeholder: "First name" },
-        { name: "lastName", label: " ", placeholder: "Last name" },
-      ],
-    },
-    {
-      name: "mobile",
-      label: "Mobile",
-      type: "phone",
-      placeholder: "ex: 963 000 0000",
-    },
-    {
-      name: "username",
-      label: "Username...",
-      type: "text",
-      placeholder: "Type your message...",
-    },
-    {
-      name: "email",
-      label: "Email",
-      type: "email",
-      placeholder: "Email address",
-    },
-    {
-      row: true,
-      fields: [
-        {
-          name: "password",
-          label: "Password",
-          type: "password",
-          placeholder: "Create Password",
-        },
-        {
-          name: "confirmPassword",
-          label: "Confirm Password",
-          type: "password",
-          placeholder: "Confirm Password",
-        },
-      ],
-    },
-  ];
+  if (user.name[0].value != "" && user.password[0].value != "") {
+    return (
+      <>
+        <h1 className="mt-5">
+          Hello {user.name[0].value}, your password is {user.password[0].value}.
+        </h1>
+        <MyButton route="/login" />
+      </>
+    );
+  }
 
   return (
     <div
@@ -268,165 +244,159 @@ const Register = () => {
         <Row className="g-0">
           <Col md={5} className="d-none d-md-block">
             <div
+              className="vh-100 top-0"
               style={{
                 backgroundColor: colors.backgrounds.png,
                 background: `url(${registerImage}) no-repeat center center`,
                 backgroundSize: "contain",
-                height: "100vh",
-                width: "100%",
                 position: "sticky",
-                top: 0,
               }}
             ></div>
           </Col>
-          <Col
-            xs={12}
-            md={7}
-            style={{
-              minHeight: "100vh",
-              overflowY: "auto",
-              padding: "2rem",
-              backgroundColor: "white",
-            }}
-          >
-            <h1>Register</h1>
-            <MyForm
-              fields={fields}
-              buttonText={"Create account"}
-              onSubmit={"submit"}
-            />
-            <form id="registerForm" onSubmit={handleFormSubmit}>
-              {logInError ? (
-                <div className="alert alert-danger mb-3">{logInError}</div>
-              ) : (
-                ""
-              )}
-              {/* username */}
-              <div className="mb-3">
-                <label htmlFor="Username">Username</label>
-                <input
-                  type="text"
-                  placeholder="Type your username"
-                  className="form-control"
-                  id="username"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      name: { value: e.target.value },
-                    });
-                  }}
-                  required
+          <Col xs={12} md={7}>
+            <div
+              style={{
+                minHeight: "100vh",
+                overflowY: "auto",
+                padding: "2rem",
+                backgroundColor: "white",
+              }}
+            >
+              <h1>Register</h1>
+
+              <form id="registerForm" onSubmit={handleFormSubmit}>
+                {registerError ? (
+                  <div className="alert alert-danger mb-3">{registerError}</div>
+                ) : (
+                  ""
+                )}
+                {/* username */}
+                <div className="mb-3">
+                  <label htmlFor="Username">Username</label>
+                  <input
+                    type="text"
+                    placeholder="Type your username"
+                    className="form-control"
+                    id="username"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        name: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Name */}
+                <div className="mb-3">
+                  <label htmlFor="Name">Name</label>
+                  <input
+                    type="text"
+                    placeholder="Type your name"
+                    className="form-control"
+                    id="field_name"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        field_name: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Surname */}
+                <div className="mb-3">
+                  <label htmlFor="Surname">Surname</label>
+                  <input
+                    type="text"
+                    placeholder="Type your field_surname"
+                    className="form-control"
+                    id="field_surname"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        field_surname: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* mail */}
+                <div className="mb-3">
+                  <label htmlFor="Email">Email</label>
+                  <input
+                    type="text"
+                    placeholder="Type your email"
+                    className="form-control"
+                    id="email"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        mail: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* field_mobile */}
+                <div className="mb-3">
+                  <label htmlFor="Phone">Phone number</label>
+                  <input
+                    type="text"
+                    placeholder="Type your Phone Number"
+                    className="form-control"
+                    id="field_phone"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        field_mobile: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* field_gender */}
+                <div className="mb-3">
+                  <label htmlFor="Gender">Gender</label>
+                  <input
+                    type="text"
+                    placeholder="Type your gender"
+                    className="form-control"
+                    id="field_gender"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        field_gender: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Password */}
+                <div className="mb-3">
+                  <label htmlFor="Password">Password</label>
+                  <input
+                    type="password"
+                    placeholder="Type your password"
+                    className="form-control"
+                    id="password"
+                    onInput={(e) => {
+                      console.log(inputData.pass.value);
+                      setInputData({
+                        ...inputData,
+                        pass: { value: e.target.value },
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Register button */}
+                <MyButton
+                  disabled={loading}
+                  text={loading ? "Registering ...." : "Register"}
                 />
-              </div>
-              {/* Name */}
-              <div className="mb-3">
-                <label htmlFor="Name">Name</label>
-                <input
-                  type="text"
-                  placeholder="Type your name"
-                  className="form-control"
-                  id="field_name"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      field_name: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* Surname */}
-              <div className="mb-3">
-                <label htmlFor="Surname">Surname</label>
-                <input
-                  type="text"
-                  placeholder="Type your field_surname"
-                  className="form-control"
-                  id="field_surname"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      field_surname: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* mail */}
-              <div className="mb-3">
-                <label htmlFor="Email">Email</label>
-                <input
-                  type="text"
-                  placeholder="Type your email"
-                  className="form-control"
-                  id="email"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      mail: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* field_mobile */}
-              <div className="mb-3">
-                <label htmlFor="Phone">Phone number</label>
-                <input
-                  type="text"
-                  placeholder="Type your Phone Number"
-                  className="form-control"
-                  id="field_phone"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      field_mobile: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* field_gender */}
-              <div className="mb-3">
-                <label htmlFor="Gender">Gender</label>
-                <input
-                  type="text"
-                  placeholder="Type your gender"
-                  className="form-control"
-                  id="field_gender"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      field_gender: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* Password */}
-              <div className="mb-3">
-                <label htmlFor="Password">Password</label>
-                <input
-                  type="password"
-                  placeholder="Type your password"
-                  className="form-control"
-                  id="password"
-                  onInput={(e) => {
-                    setRegisterData({
-                      ...registerData,
-                      pass: { value: e.target.value },
-                    });
-                  }}
-                  required
-                />
-              </div>
-              {/* Register button */}
-              <div>
-                <button disabled={loading}>
-                  {loading ? <i>Registering ....</i> : "Register"}
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </Col>
         </Row>
       </Container>
