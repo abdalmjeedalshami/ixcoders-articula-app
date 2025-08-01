@@ -1,0 +1,47 @@
+.custom-item {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Open item */
+.custom-item .accordion-button {
+    border-radius: 0;
+    background-color: #1D2026;
+    color: white;
+
+}
+
+/* Closed item */
+.custom-item .accordion-button.collapsed {
+    background-color: white;
+    color: #1D2026;
+}
+
+/* Hide default caret icon */
+.accordion-button::after {
+    display: none !important;
+}
+
+/* Custom icon */
+.custom-icon {
+    font-size: 2rem;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+/* Optional: rotate icon on active accordion */
+.accordion-button:not(.collapsed) .custom-icon {
+    transform: rotate(180deg);
+}
+
+
+.custom-item:focus-within {
+    box-shadow: 0 0 10px rgba(29, 32, 38, 0.6);
+}
+
+.custom-item:focus-within .accordion-button {
+    background-color: #1D2026;
+    color: white;
+    font-weight: bold;
+    box-shadow: none;
+    border-radius: none;
+}

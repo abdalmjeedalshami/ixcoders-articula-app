@@ -18,7 +18,7 @@ const BranchesSection = ({ title, subtitle, branches }) => {
               <div
                 className="p-3 text-center d-flex justify-content-center align-items-end"
                 style={{
-                  height: "300px",
+                  height: "350px",
                   background: `url(${branch.image}) center / cover no-repeat`,
                 }}
               >

@@ -31,7 +31,7 @@ const MyButton = ({
       onMouseLeave={() => setHover(false)}
       style={baseStyle}
     >
-      <div className="d-flex align-items-center gap-2">{text}</div>
+      <div className="d-flex align-items-center gap-2 fs-6">{text}</div>
     </button>
   );
 };

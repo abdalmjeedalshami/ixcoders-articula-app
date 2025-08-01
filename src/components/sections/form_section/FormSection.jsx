@@ -2,6 +2,39 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import colors from "../../../theme/colors";
 import MyButton from "../../common/my_button/MyButton";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
+import MyForm from "../../common/my_form/MyForm";
+
+const fields = [
+  {
+    row: true,
+    fields: [
+      { name: "firstName", label: "First Name", placeholder: "John" },
+      { name: "lastName", label: "Last Name", placeholder: "Doe" },
+    ],
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "email",
+    placeholder: "you@example.com",
+  },
+  {
+    name: "subject",
+    label: "Subject",
+    type: "text",
+    placeholder: "subject",
+  },
+  {
+    name: "message",
+    label: "Message",
+    type: "textarea",
+    placeholder: "Type your message...",
+  },
+];
+
+const handleSubmit = (data) => {
+  console.log("Contact form submitted:", data);
+};
 
 const FormSection = () => {
   return (
@@ -114,121 +147,15 @@ const FormSection = () => {
                 Feel free contact with us, we love to make new partners &
                 friends
               </p>
-              <Form>
-                <Row className="">
-                  <Col>
-                    <Form.Group controlId="formFirstName">
-                      {" "}
-                      <Form.Label
-                        className="fs-6"
-                        style={{ color: colors.blackBackground }}
-                      >
-                        First Name
-                      </Form.Label>{" "}
-                      <Form.Control
-                        type="text"
-                        placeholder="First Name..."
-                        style={{
-                          height: "50px",
-                          borderRadius: "0",
-                          color: colors.textMuted.navbar,
-                          border: `1px solid ${colors.borderAbsolutCard}`,
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                    <Form.Group controlId="formLastName">
-                      {" "}
-                      <Form.Label
-                        className="fs-6"
-                        style={{ color: colors.blackBackground }}
-                      >
-                        Last Name
-                      </Form.Label>{" "}
-                      <Form.Control
-                        type="text"
-                        placeholder="Last Name..."
-                        style={{
-                          height: "50px",
-                          borderRadius: "0",
-                          color: colors.textMuted.navbar,
-                          border: `1px solid ${colors.borderAbsolutCard}`,
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Form.Group className="" controlId="formBasicEmail">
-                  {" "}
-                  <Form.Label
-                    className="fs-6"
-                    style={{ color: colors.blackBackground }}
-                  >
-                    Email Address
-                  </Form.Label>{" "}
-                  <Form.Control
-                    type="email"
-                    placeholder="Email Address"
-                    style={{
-                      height: "50px",
-                      borderRadius: "0",
-                      color: colors.textMuted.navbar,
-                      border: `1px solid ${colors.borderAbsolutCard}`,
-                      fontSize: "0.9rem",
-                    }}
-                  />
-                </Form.Group>
-                <Form.Group className="" controlId="formBasicSubject">
-                  {" "}
-                  <Form.Label
-                    className="fs-6"
-                    style={{ color: colors.blackBackground }}
-                  >
-                    Message Subject
-                  </Form.Label>{" "}
-                  <Form.Control
-                    type="text"
-                    placeholder="Message Subject"
-                    style={{
-                      height: "50px",
-                      borderRadius: "0",
-                      color: colors.textMuted.navbar,
-                      border: `1px solid ${colors.borderAbsolutCard}`,
-                      fontSize: "0.9rem",
-                    }}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-4" controlId="formBasicMessage">
-                  {" "}
-                  <Form.Label
-                    className="fs-6"
-                    style={{ color: colors.blackBackground }}
-                  >
-                    Message Subject
-                  </Form.Label>{" "}
-                  <Form.Control
-                    as="textarea"
-                    rows={6} // Adjust rows as needed
-                    placeholder="Message Subject" // Text area placeholder is "Message Subject" in image, but usually "Message"
-                    style={{
-                      borderRadius: "0",
-                      color: colors.textMuted.navbar,
-                      border: `1px solid ${colors.borderAbsolutCard}`,
-                      fontSize: "0.9rem",
-                      resize: "none", // Prevent user from resizing
-                    }}
-                  />
-                </Form.Group>
-                <MyButton
-                  type={"submit"}
-                  text={
-                    <>
-                      Send Message <IoArrowForwardCircleOutline />
-                    </>
-                  }
-                />
-              </Form>
+              <MyForm
+                fields={fields}
+                onSubmit={handleSubmit}
+                buttonText={
+                  <>
+                    Send Message <IoArrowForwardCircleOutline />
+                  </>
+                }
+              />
             </div>
           </Col>
         </Row>

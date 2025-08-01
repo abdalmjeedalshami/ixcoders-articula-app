@@ -17,6 +17,7 @@ const colors = {
   backgrounds: {
     navbar: "#1D2026",
     about: "#FFEEE8",
+    png: "#EBEBFF",
   },
 
   textMuted: {

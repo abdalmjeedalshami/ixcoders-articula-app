@@ -1,0 +1,7 @@
+.list-group {
+    border-radius: 0;
+}
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border: none;
+}
