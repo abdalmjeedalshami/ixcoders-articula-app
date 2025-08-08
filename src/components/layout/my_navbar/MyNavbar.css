@@ -40,5 +40,5 @@
 }
 
 .offcanvas-body a:hover {
-  color: red;
+  color: var(--primary-color);
 }

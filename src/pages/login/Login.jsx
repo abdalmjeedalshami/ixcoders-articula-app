@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+import loginImage from "../../../public/images/login/login.png";
+import colors from "../../theme/colors";
+import MyButton from "../../components/common/my_button/MyButton";
+
 
 const Login = () => {
-  const [unputData, setInputData] = useState({
+  const [inputData, setInputData] = useState({
     username: "",
     password: "",
   });
@@ -32,8 +36,8 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: unputData.username,
-        pass: unputData.password,
+        name: inputData.username,
+        pass: inputData.password,
       }),
     })
       .then((res) => {
@@ -104,51 +108,83 @@ const Login = () => {
   }
 
   return (
-    <Container>
-      <h1>Login</h1>
-      <form id="loginForm" onSubmit={handleFormSubmit}>
-        {logInError ? (
-          <div className="alert alert-danger mb-3">{logInError}</div>
-        ) : (
-          ""
-        )}
-        <div className="mb-3">
-          <input
-            type="text"
-            placeholder="Type your username"
-            className="form-control"
-            id="username"
-            onInput={(e) => {
-              setInputData({
-                ...unputData,
-                username: e.target.value,
-              });
-            }}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            type="password"
-            placeholder="Type your password"
-            className="form-control"
-            id="password"
-            onInput={(e) => {
-              setInputData({
-                ...unputData,
-                password: e.target.value,
-              });
-            }}
-            required
-          />
-        </div>
-        <div>
-          <button disabled={loading}>
-            {loading ? <i>Signing in ....</i> : "Sign in"}
-          </button>
-        </div>
-      </form>
-    </Container>
+    <div
+      style={{
+        background: `linear-gradient(to right, ${colors.backgrounds.png} 100%, white 30%)`,
+      }}
+    >
+      <Container fluid>
+        <Row className="g-0">
+          <Col md={5} className="d-none d-md-block">
+            <div
+              className="vh-100 top-0"
+              style={{
+                backgroundColor: colors.backgrounds.png,
+                background: `url(${loginImage}) no-repeat center center`,
+                backgroundSize: "contain",
+                position: "sticky",
+              }}
+            ></div>
+          </Col>
+          <Col xs={12} md={7}>
+            <div
+              style={{
+                minHeight: "100vh",
+                overflowY: "auto",
+                padding: "2rem",
+                backgroundColor: "white",
+              }}
+            >
+              <h1>Login</h1>
+              <form id="loginForm" onSubmit={handleFormSubmit}>
+                {logInError ? (
+                  <div className="alert alert-danger mb-3">{logInError}</div>
+                ) : (
+                  ""
+                )}
+                {/* username */}
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    placeholder="Type your username"
+                    className="form-control"
+                    id="username"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        username: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Password */}
+                <div className="mb-3">
+                  <input
+                    type="password"
+                    placeholder="Type your password"
+                    className="form-control"
+                    id="password"
+                    onInput={(e) => {
+                      setInputData({
+                        ...inputData,
+                        password: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                </div>
+                {/* Register button */}
+                <MyButton
+                  disabled={loading}
+                  text={loading ? "Signing in ...." : "Sign in"}
+                />
+              </form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

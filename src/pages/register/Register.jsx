@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import registerImage from "../../../public/images/register/register.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
@@ -117,6 +117,8 @@ const Register = () => {
     setRegisterError(false);
 
     setLoading(true);
+    console.log("This is inputData: " + JSON.stringify(inputData));
+    localStorage.setItem("password", inputData.pass.value);
 
     fetch(`https://tamkeen-dev.com/api/user/registerpass?_format=json`, {
       method: "POST",
@@ -158,7 +160,7 @@ const Register = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        const password = [{ value: localStorage.getItem("password") }];
         setUser({
           uid: data.uid,
           uuid: data.uuid,
@@ -173,17 +175,11 @@ const Register = () => {
           field_name: data.field_name,
           field_surname: data.field_surname,
           user_picture: data.user_picture,
+          password: password,
         });
-        console.log("ggggggggggggg");
-        console.log(inputData.pass.value);
-
-        // setUser({
-        //   ...user,
-        //   password: inputData.pass.value
-        // })
+        console.log(`This is user: ` + JSON.stringify(user));
 
         localStorage.setItem("username", data.name[0].value);
-        localStorage.setItem("password", inputData.pass.value);
       })
       .catch((err) => {
         console.log(err);
@@ -191,6 +187,7 @@ const Register = () => {
       })
       .finally(() => {
         console.log("Fetch ended");
+        console.log(inputData.pass.value);
         setLoading(false);
       });
   };
@@ -381,7 +378,6 @@ const Register = () => {
                     className="form-control"
                     id="password"
                     onInput={(e) => {
-                      console.log(inputData.pass.value);
                       setInputData({
                         ...inputData,
                         pass: { value: e.target.value },

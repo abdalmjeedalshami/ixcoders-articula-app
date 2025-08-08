@@ -11,6 +11,7 @@ import MyFooter from "../../components/layout/my_footer/MyFooter";
 import BasicSection from "../../components/sections/basic_section/BasicSection";
 import menImage from "../../assets/images/men.jpg";
 import MyLine from "../../components/common/my_line/MyLine";
+import { Helmet } from "react-helmet";
 
 const quotes = [
   {
@@ -56,6 +57,11 @@ const breadcrumbPath = [
 const About = () => {
   return (
     <>
+      <Helmet>
+        <title>About Us | Articula</title>
+        <meta name="description" content="Learn more about us" />
+      </Helmet>
+      
       <MyBreadcrumb title={"About"} path={breadcrumbPath} />
 
       <BasicSection

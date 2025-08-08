@@ -1,0 +1,23 @@
+.custom-dropdown .dropdown-toggle,
+.custom-dropdown .dropdown-toggle:hover,
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:active {
+    background-color: transparent !important;
+    border: none;
+    color: black !important;
+}
+
+.custom-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.custom-dropdown .dropdown-menu {
+    border-bottom: 5px solid var(--primary-color);
+}
+
+.custom-dropdown .dropdown-item {
+    border-left: 3px solid transparent;
+}
+.custom-dropdown .dropdown-item:hover {
+    border-left-color: var(--primary-color);
+}

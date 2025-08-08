@@ -27,12 +27,16 @@ const WelcomeSection = ({ title, subtitle, image }) => {
               color={colors.white}
               backgroundColor={colors.blackBackground}
             />
-            <MyButton
-              text={"Create Account"}
-              color={colors.secondary}
-              backgroundColor={colors.primary}
-              route="/login"
-            />
+            {localStorage.getItem("csrf_token") ? (
+              ""
+            ) : (
+              <MyButton
+                text={"Create Account"}
+                color={colors.secondary}
+                backgroundColor={colors.primary}
+                route="/login"
+              />
+            )}
           </div>
         </Col>
 

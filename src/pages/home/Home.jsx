@@ -19,6 +19,7 @@ import MySection from "../../components/sections/my_section/MySection";
 import CategoryCard from "../../components/cards/category_card/CategoryCard";
 import JobCard from "../../components/cards/job_card/JobCard";
 import MySwiper from "@components/sliders/my_swiper/MySwiper";
+import { Helmet } from "react-helmet";
 
 const categories = [
   {
@@ -185,6 +186,13 @@ const writers = [
 const HomePage = () => {
   return (
     <>
+      <Helmet>
+        <title>Home | Articula</title>
+        <meta name="description" content="This is the home page of Articula" />
+        <meta name="keywords" content="Learn, Articles" />
+      </Helmet>
+
+      <h1 className="d-none">Learn with expert</h1>
       <WelcomeSection
         title={"Learn with expert anytime anywhere"}
         subtitle={

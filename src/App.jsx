@@ -17,6 +17,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Jobs from "./pages/jobs/Jobs";
 import Faqs from "./pages/faqs/faqs";
+import { Helmet } from "react-helmet";
 
 function App() {
   useEffect(() => {
@@ -27,6 +28,13 @@ function App() {
   }, []);
   return (
     <>
+    <Helmet>
+        <title>Articula</title>
+        <meta name="description" content="All articles you search for" />
+        <meta name="keywords" content="Articula, Articles, Authors" />
+        <link rel="icon" href={logoIcon} />
+      </Helmet>
+
       <BrowserRouter>
         <MyNavbar />
         <MyAppBar logo={logoIcon} />

@@ -1,8 +1,8 @@
 import { Navbar, Container } from "react-bootstrap";
 import MyButton from "../../common/my_button/MyButton";
-
 import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
+import MyDropdown from "../../common/dropdown/MyDropdown";
 
 const MyAppBar = ({ logo }) => {
   return (
@@ -17,24 +17,28 @@ const MyAppBar = ({ logo }) => {
             <span className="fs-3 fw-bold">Articula</span>
           </NavLink>
 
-          <div>
-            <MyButton
-              classes={"ms-2"}
-              text="Create Account"
-              color={colors.primary}
-              backgroundColor={colors.secondary}
-              route="/register"
-              hoverColor="white"
-              hoverBackgroundColor={colors.primary}
-            />
-            <MyButton
-              classes={"ms-2"}
-              text="Sign In"
-              color={colors.secondary}
-              backgroundColor={colors.primary}
-              route="/login"
-            />
-          </div>
+          {localStorage.getItem("csrf_token") ? (
+            <MyDropdown />
+          ) : (
+            <div>
+              <MyButton
+                classes={"ms-2"}
+                text="Create Account"
+                color={colors.primary}
+                backgroundColor={colors.secondary}
+                route="/register"
+                hoverColor="white"
+                hoverBackgroundColor={colors.primary}
+              />
+              <MyButton
+                classes={"ms-2"}
+                text="Sign In"
+                color={colors.secondary}
+                backgroundColor={colors.primary}
+                route="/login"
+              />
+            </div>
+          )}
         </Container>
       </Navbar>
     </>
