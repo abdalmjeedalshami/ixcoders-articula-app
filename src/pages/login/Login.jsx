@@ -3,9 +3,19 @@ import { Container, Row, Col } from "react-bootstrap";
 import loginImage from "../../../public/images/login/login.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
-
+import { apiFetch } from "../../services/api";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     navigate("/");
+  //   }
+  // }, [navigate]);
+
   const [inputData, setInputData] = useState({
     username: "",
     password: "",
@@ -19,15 +29,12 @@ const Login = () => {
     logout_token: "",
   });
 
-  const [initializing, setInitializing] = useState(true);
   const [logInError, setLogInError] = useState();
   const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
     setLogInError(false);
-
     setLoading(true);
 
     fetch(`https://tamkeen-dev.com/api/user/login?_format=json`, {
@@ -61,11 +68,9 @@ const Login = () => {
           logout_token: data.logout_token,
         });
 
-        localStorage.setItem("user_id", data.current_user.uid);
-        localStorage.setItem("username", data.current_user.name);
-        localStorage.setItem("csrf_token", data.csrf_token);
-        localStorage.setItem("logout_token", data.logout_token);
-        localStorage.setItem("roles", data.current_user.roles);
+        const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
+        localStorage.setItem("basicAuth", btoa(basicAuth));
+        localStorage.setItem("username", inputData.username);
       })
       .catch((err) => {
         console.log(err);
@@ -77,35 +82,45 @@ const Login = () => {
       });
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("user_id") && localStorage.getItem("username")) {
-      setUser({
-        id: localStorage.getItem("user_id"),
-        username: localStorage.getItem("username"),
-        csrf_token: localStorage.getItem("csrf_token"),
-        logout_token: localStorage.getItem("logout_token"),
+  async function handleLogin(e) {
+    e.preventDefault();
+    setLogInError(false);
+    setLoading(true);
+    try {
+      const data = await apiFetch("/login?_format=json", {
+        method: "POST",
+        body: { name: inputData.username, pass: inputData.password },
       });
+
+      setUser({
+        id: data.current_user.uid,
+        roles: data.current_user.roles,
+        username: data.current_user.name,
+        csrf_token: data.csrf_token,
+        logout_token: data.logout_token,
+      });
+
+      localStorage.setItem("token", data.csrf_token);
+      localStorage.setItem("username", data.current_user.name);
+      window.dispatchEvent(new Event("tokenUpdated"));
+      navigate("/")
+    } catch (error) {
+      setLogInError(error.message);
+      console.error(error);
     }
-
-    setInitializing(false);
-  }, []);
-
-  if (initializing) {
-    return <></>;
+    setLoading(false);
   }
-  // if(loading) {
-  //     return (
-  //         <>Loading..........</>
-  //     )
-  // }
 
-  if (user.id != "" && user.username != "") {
-    return (
-      <h1 className="mt-5">
-        Hello {user.username}, your csrf token is {user.csrf_token}
-      </h1>
-    );
-  }
+  // useEffect(() => {
+  //   if (localStorage.getItem("token") && localStorage.getItem("username")) {
+  //     setUser({
+  //       ...user,
+  //       username: localStorage.getItem("username"),
+  //     });
+  //   }
+
+  //   setInitializing(false);
+  // }, []);
 
   return (
     <div
@@ -136,7 +151,7 @@ const Login = () => {
               }}
             >
               <h1>Login</h1>
-              <form id="loginForm" onSubmit={handleFormSubmit}>
+              <form id="loginForm" onSubmit={handleLogin}>
                 {logInError ? (
                   <div className="alert alert-danger mb-3">{logInError}</div>
                 ) : (
@@ -176,6 +191,7 @@ const Login = () => {
                 </div>
                 {/* Register button */}
                 <MyButton
+                  type="submit"
                   disabled={loading}
                   text={loading ? "Signing in ...." : "Sign in"}
                 />

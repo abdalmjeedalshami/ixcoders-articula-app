@@ -3,8 +3,22 @@ import MyButton from "../../common/my_button/MyButton";
 import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
 import MyDropdown from "../../common/dropdown/MyDropdown";
+import { useState, useEffect } from "react";
 
 const MyAppBar = ({ logo }) => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem("token"));
+    };
+    window.addEventListener("tokenUpdated", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("tokenUpdated", handleStorageChange);
+    };
+  }, []);
+
   return (
     <>
       <Navbar className="my-bg-white border border-bottom py-4">
@@ -17,7 +31,7 @@ const MyAppBar = ({ logo }) => {
             <span className="fs-3 fw-bold">Articula</span>
           </NavLink>
 
-          {localStorage.getItem("csrf_token") ? (
+          {token ? (
             <MyDropdown />
           ) : (
             <div>

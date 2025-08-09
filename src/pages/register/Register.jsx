@@ -107,18 +107,17 @@ const Register = () => {
     ],
   });
 
-  const [initializing, setInitializing] = useState(true);
   const [registerError, setRegisterError] = useState();
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    setRegisterError(false);
-
     setLoading(true);
-    console.log("This is inputData: " + JSON.stringify(inputData));
-    localStorage.setItem("password", inputData.pass.value);
+
+    const username = inputData.name.value;
+    const password = inputData.pass.value;
+    const basicAuth = btoa(`${username}:${password}`);
 
     fetch(`https://tamkeen-dev.com/api/user/registerpass?_format=json`, {
       method: "POST",
@@ -142,25 +141,30 @@ const Register = () => {
           value: inputData.field_mobile,
         },
         field_gender: {
-          target_id: inputData.field_gender,
+          target_id: inputData.field_gender.target_id,
         },
         pass: {
           value: inputData.pass.value,
         },
       }),
     })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((serverError) => {
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((serverError) => {
             throw new Error(
               serverError.message || "حدث خطأ ما.. يرجى مراسلة مديرة الموقع"
             );
           });
         }
-        return res.json();
+        localStorage.setItem("basicAuth", basicAuth);
+        setMessage(
+          "You have successfully created your account. An activation email sent to you via your email."
+        );
+        setRegisterError();
+        return response.json();
       })
       .then((data) => {
-        const password = [{ value: localStorage.getItem("password") }];
+        console.log(data);
         setUser({
           uid: data.uid,
           uuid: data.uuid,
@@ -175,61 +179,51 @@ const Register = () => {
           field_name: data.field_name,
           field_surname: data.field_surname,
           user_picture: data.user_picture,
-          password: password,
         });
-        console.log(`This is user: ` + JSON.stringify(user));
-
-        localStorage.setItem("username", data.name[0].value);
+        setInputData({
+          name: {
+            value: "",
+          },
+          field_name: {
+            value: "",
+          },
+          field_surname: {
+            value: "",
+          },
+          mail: {
+            value: "",
+          },
+          field_mobile: {
+            value: "",
+          },
+          field_gender: {
+            target_id: "",
+          },
+          pass: {
+            value: "",
+          },
+        });
       })
-      .catch((err) => {
-        console.log(err);
-        setRegisterError(err.message);
+      .catch((error) => {
+        setRegisterError(error.message);
       })
       .finally(() => {
-        console.log("Fetch ended");
-        console.log(inputData.pass.value);
         setLoading(false);
       });
   };
 
   useEffect(() => {
-    if (localStorage.getItem("username") && localStorage.getItem("password")) {
+    const basicAuth = localStorage.getItem("basicAuth");
+    if (basicAuth) {
+      const decodedBasicAuth = atob(basicAuth);
+      const [username, password] = decodedBasicAuth.split(":");
+
       setUser({
-        name: [{ value: localStorage.getItem("username") }],
-        password: [{ value: localStorage.getItem("password") }],
+        name: [{ value: username }],
+        password: [{ value: password }],
       });
     }
-
-    setInitializing(false);
   }, []);
-
-  if (initializing) {
-    return <></>;
-  }
-
-  if (loading) {
-    return (
-      <>
-        <div
-          style={{ height: "500px" }}
-          className="d-flex justify-content-center align-items-cetner"
-        >
-          <MySpinner />
-        </div>
-      </>
-    );
-  }
-
-  if (user.name[0].value != "" && user.password[0].value != "") {
-    return (
-      <>
-        <h1 className="mt-5">
-          Hello {user.name[0].value}, your password is {user.password[0].value}.
-        </h1>
-        <MyButton route="/login" />
-      </>
-    );
-  }
 
   return (
     <div
@@ -262,19 +256,15 @@ const Register = () => {
               <h1>Register</h1>
 
               <form id="registerForm" onSubmit={handleFormSubmit}>
-                {registerError ? (
-                  <div className="alert alert-danger mb-3">{registerError}</div>
-                ) : (
-                  ""
-                )}
                 {/* username */}
                 <div className="mb-3">
                   <label htmlFor="Username">Username</label>
                   <input
-                    type="text"
-                    placeholder="Type your username"
                     className="form-control"
+                    type="text"
                     id="username"
+                    placeholder="Type your username"
+                    value={inputData.name.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -292,6 +282,7 @@ const Register = () => {
                     placeholder="Type your name"
                     className="form-control"
                     id="field_name"
+                    value={inputData.field_name.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -309,6 +300,7 @@ const Register = () => {
                     placeholder="Type your field_surname"
                     className="form-control"
                     id="field_surname"
+                    value={inputData.field_surname.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -326,6 +318,7 @@ const Register = () => {
                     placeholder="Type your email"
                     className="form-control"
                     id="email"
+                    value={inputData.mail.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -343,6 +336,7 @@ const Register = () => {
                     placeholder="Type your Phone Number"
                     className="form-control"
                     id="field_phone"
+                    value={inputData.field_mobile.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -355,7 +349,7 @@ const Register = () => {
                 {/* field_gender */}
                 <div className="mb-3">
                   <label htmlFor="Gender">Gender</label>
-                  <input
+                  <select
                     type="text"
                     placeholder="Type your gender"
                     className="form-control"
@@ -363,11 +357,14 @@ const Register = () => {
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
-                        field_gender: { value: e.target.value },
+                        field_gender: { target_id: e.target.value },
                       });
                     }}
                     required
-                  />
+                  >
+                    <option value="9">Famale</option>
+                    <option value="10">Male</option>
+                  </select>
                 </div>
                 {/* Password */}
                 <div className="mb-3">
@@ -377,6 +374,7 @@ const Register = () => {
                     placeholder="Type your password"
                     className="form-control"
                     id="password"
+                    value={inputData.pass.value}
                     onInput={(e) => {
                       setInputData({
                         ...inputData,
@@ -386,10 +384,28 @@ const Register = () => {
                     required
                   />
                 </div>
+
+                {/* Validation message */}
+                {registerError ? (
+                  <div className="alert alert-danger mb-3">{registerError}</div>
+                ) : (
+                  ""
+                )}
+
+                {message ? (
+                  <div className="alert alert-success">{message}</div>
+                ) : (
+                  ""
+                )}
+
                 {/* Register button */}
                 <MyButton
+                  type="submit"
                   disabled={loading}
                   text={loading ? "Registering ...." : "Register"}
+                  onSubmit={(e) => {
+                    console.log("btn clicked");
+                  }}
                 />
               </form>
             </div>
