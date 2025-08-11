@@ -3,7 +3,7 @@ import colors from "../../../theme/colors";
 
 const TrustedSection = ({ title, subtitle, companies }) => {
   return (
-    <Container fluid className="py-5">
+    <Container fluid className="py-5 bg-white">
       <Container>
         <Row>
           {/* Left Text Section */}

@@ -99,11 +99,14 @@ const Login = () => {
         csrf_token: data.csrf_token,
         logout_token: data.logout_token,
       });
-
-      localStorage.setItem("token", data.csrf_token);
+      const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
       localStorage.setItem("username", data.current_user.name);
+      localStorage.setItem("id", data.current_user.uid);
+      localStorage.setItem("password", inputData.password);
+      localStorage.setItem("token", btoa(basicAuth));
+      localStorage.setItem("apiToken", data.csrf_token);
       window.dispatchEvent(new Event("tokenUpdated"));
-      navigate("/")
+      navigate("/");
     } catch (error) {
       setLogInError(error.message);
       console.error(error);

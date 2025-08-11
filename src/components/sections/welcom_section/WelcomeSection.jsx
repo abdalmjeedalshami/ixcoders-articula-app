@@ -27,7 +27,7 @@ const WelcomeSection = ({ title, subtitle, image }) => {
               color={colors.white}
               backgroundColor={colors.blackBackground}
             />
-            {localStorage.getItem("csrf_token") ? (
+            {localStorage.getItem("token") ? (
               ""
             ) : (
               <MyButton

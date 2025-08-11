@@ -6,7 +6,7 @@ let csrfToken = null;
 // 🔹 Fetch CSRF token when needed
 async function getCsrfToken() {
   if (!csrfToken) {
-    const res = await fetch(`${BASE_URL}/session/token?_format=json`, {
+    const res = await fetch(`${BASE_URL}/session/token`, {
       method: "POST", // or "GET" if your backend expects GET
       headers: {
         "Content-Type": "application/json",
@@ -20,8 +20,11 @@ async function getCsrfToken() {
 }
 
 // 🔹 Main reusable fetch function
-export async function apiFetch(endpoint, { method = "GET", body, headers = {}, requireCsrf = false } = {}) {
-  const token = localStorage.getItem("token");
+export async function apiFetch(
+  endpoint,
+  { method = "GET", body, headers = {}, requireCsrf = false } = {}
+) {
+  const token = localStorage.getItem("apiToken");
 
   if (requireCsrf) {
     const csrf = await getCsrfToken();
@@ -32,7 +35,7 @@ export async function apiFetch(endpoint, { method = "GET", body, headers = {}, r
     method,
     headers: {
       "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
+      // ...(token && { Authorization: `Bearer ${token}` }),
       ...headers,
     },
     ...(body && { body: JSON.stringify(body) }),

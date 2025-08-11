@@ -19,6 +19,20 @@ const MyAppBar = ({ logo }) => {
     };
   }, []);
 
+  const getTokenFromAPI = () => {
+    fetch(`https://tamkeen-dev.com/api/session/token`)
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        localStorage.setItem("apiToken", data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(console.log("fetch ended"));
+  };
+
   return (
     <>
       <Navbar className="my-bg-white border border-bottom py-4">

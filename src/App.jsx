@@ -6,6 +6,9 @@ import "./theme/colors";
 import "./styles/_variables.css";
 import MyNavbar from "./components/layout/my_navbar/MyNavbar";
 import Login from "./pages/login/Login";
+import Articles from "./pages/articles/Articles";
+import Account from "./pages/account/Account";
+import MyArticles from "./pages/my_articles/MyArticles";
 import About from "./pages/about/About";
 import Contact from "./pages/contact/Contact";
 import HomePage from "./pages/home/Home";
@@ -28,7 +31,7 @@ function App() {
   }, []);
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>Articula</title>
         <meta name="description" content="All articles you search for" />
         <meta name="keywords" content="Articula, Articles, Authors" />
@@ -41,6 +44,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/my_articles" element={<MyArticles />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/faqs" element={<Faqs />} />

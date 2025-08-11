@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa";
 import colors from "../../../theme/colors";
 import { NavLink } from "react-router";
 
-const MySection = ({ backgroundColor, isCard, header, body, footer }) => {
+const MySection = ({ backgroundColor="white", isCard, header, body, footer }) => {
   return (
     <div style={{ backgroundColor: backgroundColor }}>
       <Container
