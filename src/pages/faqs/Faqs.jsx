@@ -5,49 +5,11 @@ import MyListGroup from "../../components/common/my_list_group/MyListGroup";
 import MyForm from "../../components/common/my_form/MyForm";
 import colors from "../../theme/colors";
 import MyFooter from "../../components/layout/my_footer/MyFooter";
+import { useEffect, useState } from "react";
 
 const breadcrumbPath = [
   { label: "Home", to: "/" },
   { label: "FAQs", to: "/faqs" },
-];
-
-const accordionList = [
-  {
-    title: "Fusce placerat interdum magna, ut ultrices odio pharetra pulvinar.",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title: "Proin lacinia lobortis metus, ut faucibus eros ullamcorper et.",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title:
-      "Etiam a nisl dui. Integer sed eros sed leo blandit interdum eget nec",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title: "Nulla id ligula ligula. ",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title: "Etiam non tellus non dolor suscipit vehicula. ",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title: "Vestibulum pellentesque ex magna.",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
-  {
-    title: "Ut ullamcorper est sit amet quam aliquet mattis.",
-    content:
-      "Aliquam semper tellus vel lacus rutrum mollis. Nunc vitae iaculis lacus, id fringilla leo. Nulla dictum, enim nec bibendum auctor, lorem mi rutrum urna, sed luctus urna nibh sit amet velit. Sed varius sem semper leo ultricies tincidunt. Etiam id ligula ut augue auctor molestie ut quis felis.",
-  },
 ];
 
 const fields = [
@@ -65,11 +27,33 @@ const fields = [
   },
 ];
 
-const handleSubmit = (data) => {
-  console.log("Form submitted:", data);
-};
-
 const Faqs = () => {
+  const [accordionList, setAccordionList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("https://tamkeen-dev.com/api/faq-list", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch FAQs");
+        return response.json();
+      })
+      .then((data) => {
+        setAccordionList(data);
+      })
+      .catch((e) => {
+        console.error("FAQ fetch error:", e);
+        setError("Unable to load FAQs. Please try again later.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <>
       <MyBreadcrumb title={"FAQs"} path={breadcrumbPath} />
@@ -82,8 +66,20 @@ const Faqs = () => {
             <MyListGroup />
           </Col>
           <Col md={6}>
-            <MyAccordion list={accordionList} />
+            {loading ? (
+              <div className="text-center py-5">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading FAQs...</span>
+                </div>
+                <p className="mt-3 fs-6 text-muted">Loading FAQs…</p>
+              </div>
+            ) : error ? (
+              <div className="text-danger text-center py-5">{error}</div>
+            ) : (
+              <MyAccordion list={accordionList} />
+            )}
           </Col>
+
           <Col md={3}>
             <div
               className="p-3 fs-3"
@@ -106,11 +102,7 @@ const Faqs = () => {
                 Don’t worry, write your question here and our support team will
                 help you.
               </p>
-              <MyForm
-                fields={fields}
-                onSubmit={handleSubmit}
-                buttonText="Submit Question"
-              />
+              <MyForm fields={fields} buttonText="Submit Question" />
             </div>
           </Col>
         </Row>

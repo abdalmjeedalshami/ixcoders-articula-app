@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import colors from "../../theme/colors";
+import { useNavigate } from "react-router";
 
 const MyArticles = () => {
+  const navigate = useNavigate();
+
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +41,15 @@ const MyArticles = () => {
     fetchArticles();
   }, []);
 
-  if (loading) return <p className="text-center mt-5">Loading articles...</p>;
+  if (loading)
+    return (
+      <div className="text-center py-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading Your Articles...</span>
+        </div>
+        <p className="mt-3 fs-6 text-muted">Loading Your Articles…</p>
+      </div>
+    );
 
   return (
     <div className="container p-5">
@@ -103,6 +114,15 @@ const MyArticles = () => {
       ) : (
         <p>No articles found.</p>
       )}
+      <div className="text-center">
+        <button
+          onClick={() => {
+            navigate("/create_blog");
+          }}
+        >
+          Create Blog
+        </button>
+      </div>
     </div>
   );
 };

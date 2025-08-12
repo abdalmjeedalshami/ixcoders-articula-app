@@ -39,7 +39,15 @@ const Articles = () => {
     fetchArticles();
   }, []);
 
-  if (loading) return <p>Loading articles...</p>;
+  if (loading)
+    return (
+      <div className="text-center py-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading Articles...</span>
+        </div>
+        <p className="mt-3 fs-6 text-muted">Loading Articles…</p>
+      </div>
+    );
 
   return (
     <div className="container p-5">

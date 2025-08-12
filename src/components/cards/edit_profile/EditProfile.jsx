@@ -123,6 +123,7 @@ const EditProfile = ({ user }) => {
             className="form-control"
             onInput={handleFileChange}
           />
+          
           {/* <button
             className="btn btn-primary mt-2"
             onClick={handleUpload}

@@ -16,7 +16,7 @@ function MyAccordion({ list }) {
             {item.title}
             <BsArrowDownShort className="custom-icon" />
           </Accordion.Header>
-          <Accordion.Body>{item.content}</Accordion.Body>
+          <Accordion.Body dangerouslySetInnerHTML={{ __html: item.body }} />
         </Accordion.Item>
       ))}
     </Accordion>

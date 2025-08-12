@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import { BrowserRouter, Routes, Route } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -21,6 +22,7 @@ import "aos/dist/aos.css";
 import Jobs from "./pages/jobs/Jobs";
 import Faqs from "./pages/faqs/faqs";
 import { Helmet } from "react-helmet";
+import BlogCreatePage from "./pages/create_blog/BlogCreatePage";
 
 function App() {
   useEffect(() => {
@@ -29,6 +31,20 @@ function App() {
     });
     AOS.refresh();
   }, []);
+
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem("token"));
+    };
+    window.addEventListener("tokenUpdated", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("tokenUpdated", handleStorageChange);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -42,16 +58,27 @@ function App() {
         <MyNavbar />
         <MyAppBar logo={logoIcon} />
         <Routes>
+          <Route path="/account" element={token ? <Account /> : <HomePage />} />
+
+          <Route
+            path="/my_articles"
+            element={token ? <MyArticles /> : <HomePage />}
+          />
+
+          <Route path="/login" element={token ? <HomePage /> : <Login />} />
+
+          <Route
+            path="/register"
+            element={token ? <HomePage /> : <Register />}
+          />
+
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/articles" element={<Articles />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/my_articles" element={<MyArticles />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/faqs" element={<Faqs />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/create_blog" element={<BlogCreatePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
