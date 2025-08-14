@@ -1,0 +1,31 @@
+/* Make the wrapper stretch its slides */
+.writers-swiper .swiper-wrapper {
+    align-items: stretch;
+    /* flex axis cross-size fill */
+}
+
+/* Allow slides to take the tallest height */
+.writers-swiper .swiper-slide {
+    height: auto;
+    /* override Swiper’s default height: 100% */
+    display: flex;
+    /* so the child can stretch */
+}
+
+/* Force the card container to fill the slide */
+.writers-swiper .swiper-slide .slide-card-wrapper {
+    height: 100%;
+    display: flex;
+}
+
+/* Ensure the card itself stretches and lays out nicely */
+.writer-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Optional: let the main body grow, push footer/buttons down */
+.writer-card__body {
+    flex: 1 1 auto;
+}

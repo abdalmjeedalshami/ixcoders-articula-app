@@ -1,5 +1,6 @@
 import { useState } from "react";
 import colors from "../../../theme/colors";
+import { editUser } from "../../../utils/user";
 
 const EditProfile = ({ user }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,78 +17,15 @@ const EditProfile = ({ user }) => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!selectedFile) return;
-
-    try {
-      // Upload image
-      const uploadResponse = await fetch(
-        "https://tamkeen-dev.com/api/file/upload/user/user/user_picture?_format=json",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/octet-stream",
-            "X-CSRF-Token": localStorage.getItem("apiToken"),
-            "Content-Disposition": `file; filename="${selectedFile.name}"`,
-            Authorization:
-              "Basic " +
-              btoa(
-                `${user.name?.[0]?.value}:${localStorage.getItem("password")}`
-              ),
-          },
-          body: selectedFile,
-        }
-      );
-
-      if (!uploadResponse.ok) {
-        throw new Error(`Upload failed with status ${uploadResponse.status}`);
-      }
-
-      const uploadResult = await uploadResponse.json();
-      const uploadedPictureId = uploadResult.fid?.[0]?.value;
-
-      if (!uploadedPictureId) {
-        throw new Error("No picture ID returned from upload");
-      }
-
-      // Update user profile
-      const username = localStorage.getItem("username");
-      const password = localStorage.getItem("password");
-      const btoaToken = btoa(`${username}:${password}`);
-
-      const updateBody = {
-        field_name: [{ value: firstName }],
-        field_surname: [{ value: surname }],
-        user_picture: [{ target_id: Number(uploadedPictureId) }],
-      };
-
-      if (email) {
-        updateBody.mail = [{ value: email }];
-        updateBody.current_pass = [{ value: currentPass }];
-      }
-
-      const updateResponse = await fetch(
-        `https://tamkeen-dev.com/api/user/${user.uid?.[0]?.value}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Basic ${btoaToken}`,
-          },
-          body: JSON.stringify(updateBody),
-        }
-      );
-
-      if (!updateResponse.ok) {
-        throw new Error(
-          `Profile update failed with status ${updateResponse.status}`
-        );
-      }
-
-      setMessage("Profile updated successfully ✅");
-    } catch (error) {
-      console.error("Error during upload or update:", error);
-      setMessage("Failed to update profile ❌");
-    }
+    await editUser({
+      selectedFile,
+      user,
+      firstName,
+      surname,
+      email,
+      currentPass,
+      setMessage,
+    });
   };
 
   return (
@@ -123,7 +61,7 @@ const EditProfile = ({ user }) => {
             className="form-control"
             onInput={handleFileChange}
           />
-          
+
           {/* <button
             className="btn btn-primary mt-2"
             onClick={handleUpload}

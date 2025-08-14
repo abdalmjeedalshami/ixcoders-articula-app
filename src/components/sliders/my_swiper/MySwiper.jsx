@@ -7,6 +7,7 @@ import { Navigation, Scrollbar, A11y } from "swiper/modules";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import WriterCard from "../../cards/writer_card/WriterCard";
+// import "./MySwiper.css"
 
 const MySwiper = ({ list }) => {
   return (
@@ -14,18 +15,19 @@ const MySwiper = ({ list }) => {
       {/* Custom Navigation Buttons */}
       <div
         className="swiper-button-prev-custom position-absolute top-50 translate-middle-y z-3"
-        style={{ left: "-10vh", color: "red", fontSize: "600%" }}
+        style={{ left: "-9vh", color: "red", fontSize: "5rem" }}
       >
         <IoIosArrowBack />
       </div>
       <div
         className="swiper-button-next-custom position-absolute top-50 translate-middle-y z-3"
-        style={{ right: "-10vh", color: "red", fontSize: "600%" }}
+        style={{ right: "-9vh", color: "red", fontSize: "5rem" }}
       >
         <IoIosArrowForward />
       </div>
 
       <Swiper
+      className="writers-swiper"
         modules={[Navigation, Scrollbar, A11y]}
         spaceBetween={20}
         breakpoints={{

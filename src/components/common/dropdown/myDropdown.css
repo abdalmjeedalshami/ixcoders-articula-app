@@ -1,11 +1,15 @@
 .custom-dropdown .dropdown-toggle,
 .custom-dropdown .dropdown-toggle:hover,
-.custom-dropdown .dropdown-toggle:focus,
 .custom-dropdown .dropdown-toggle:active {
-    background-color: transparent !important;
+    background-color: transparent;
     border: none;
-    color: black !important;
+    color: black;
 }
+
+.custom-dropdown .dropdown-toggle:hover {
+    color: var(--primary-color);
+}
+
 
 .custom-dropdown .dropdown-toggle::after {
     display: none;
@@ -18,6 +22,10 @@
 .custom-dropdown .dropdown-item {
     border-left: 3px solid transparent;
 }
-.custom-dropdown .dropdown-item:hover {
+
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item:focus {
     border-left-color: var(--primary-color);
+    background-color: transparent;
+    color: black;
 }

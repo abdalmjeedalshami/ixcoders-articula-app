@@ -29,6 +29,7 @@ export async function apiFetch(
   if (requireCsrf) {
     const csrf = await getCsrfToken();
     headers["X-CSRF-Token"] = csrf;
+    console.log("This is the csrf token: " + csrf);
   }
 
   const res = await fetch(`${BASE_URL}${endpoint}`, {

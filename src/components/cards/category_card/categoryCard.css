@@ -1,0 +1,22 @@
+.category-card {
+    background-color: var(--card-bg);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+.category-card .icon-wrapper {
+    background-color: var(--icon-bg);
+    transition: background-color 0.3s ease;
+}
+
+.category-card:hover {
+    background-color: white;
+}
+
+.category-card:hover .icon-wrapper {
+    background-color: var(--icon-hover-bg);
+}

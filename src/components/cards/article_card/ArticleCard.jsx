@@ -21,17 +21,19 @@ const ArticleCard = ({ article }) => {
         to={`/articles/article=${article.id}`}
         className="w-100 text-decoration-none"
       >
-        <div className="pb-3 h-100" style={{ backgroundColor: "white" }}>
+        <div className="article-card pb-3 h-100" style={{ backgroundColor: "white" }}>
           {/* Image */}
-          <div
-            className="object-fit-cover"
-            style={{
-              backgroundImage: `url(${article.image})`,
-              height: "150px",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
+          <div className="overflow-hidden">
+            <div
+              className="object-fit-cover"
+              style={{
+                backgroundImage: `url(${article.image})`,
+                height: "150px",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </div>
           {/* Tag */}
           <MyTag tag={article.tag} classes={"mx-3 my-2"} />
           <p className="mx-3 article-description">{article.description}</p>

@@ -1,5 +1,28 @@
 .job-card {
     border: 1px solid #E9EAF0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Smooth image zoom on hover */
+.job-card img {
+    transition: transform 0.4s ease;
+}
+
+.job-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Optional: subtle title color change on hover */
+.job-card:hover strong {
+    color: var(--bs-primary);
+    /* Bootstrap primary or your theme color */
 }
 
 .month {

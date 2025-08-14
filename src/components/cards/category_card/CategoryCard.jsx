@@ -1,6 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
+import "./categoryCard.css";
 
 const CategoryCard = ({ big, category }) => {
   return (
@@ -17,30 +18,27 @@ const CategoryCard = ({ big, category }) => {
     >
       <NavLink className="text-decoration-none" to={`/products/${category.id}`}>
         <div
-          className="p-3 overflow-hidden h-100"
-          style={{ backgroundColor: category.color }}
+          className="category-card p-3 overflow-hidden h-100"
+          style={{
+            "--icon-hover-bg": category.color || "#222",
+            "--card-bg": category.color,
+            "--icon-bg": category.iconBackground || "#fff",
+          }}
         >
           <Row className="g-3">
             <Col
               xs={3}
               className="d-flex justify-content-center align-items-center"
             >
-              <div
-                className="p-2"
-                style={{
-                  backgroundColor: category.iconBackground || "#fff",
-                }}
-              >
+              <div className="icon-wrapper p-2">
                 <img src={category.image} alt={category.name} />
               </div>
             </Col>
-            {big ? <Col></Col> : ""}
+            {big && <Col></Col>}
 
             <Col xs={9}>
               <p className="mb-1 fw-bold text-wrap">{category.name}</p>
-              {big ? (
-                ""
-              ) : (
+              {!big && (
                 <p className="m-0" style={{ color: colors.textMuted.category }}>
                   {category.articleCount} Articles
                 </p>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import colors from "../../theme/colors";
 import { useNavigate } from "react-router";
+import { fetchUserArticles } from "../../utils/blog";
 
 const MyArticles = () => {
   const navigate = useNavigate();
@@ -9,36 +10,7 @@ const MyArticles = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const username = localStorage.getItem("username");
-        const password = localStorage.getItem("password");
-        const btoaToken = btoa(username + ":" + password);
-
-        const response = await fetch(
-          "https://tamkeen-dev.com/api/blogs-api-current-user",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Basic ${btoaToken}`,
-            },
-          }
-        );
-
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
-
-        const data = await response.json();
-        setArticles(data.rows);
-      } catch (error) {
-        console.error("Error fetching articles:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
+    fetchUserArticles({ setArticles, setLoading });
   }, []);
 
   if (loading)

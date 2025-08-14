@@ -13,12 +13,14 @@ const JobCard = ({ job }) => {
         <Row className="g-0">
           {/* Image Section */}
           <Col xs={12} md={4}>
-            <Card.Img
-              src={job.image}
-              alt={job.title}
-              className="img-fluid rounded-0 h-100"
-              style={{ objectFit: "cover", minHeight: "200px" }}
-            />
+            <div className="overflow-hidden">
+              <Card.Img
+                src={job.image}
+                alt={job.title}
+                className="img-fluid rounded-0 h-100"
+                style={{ objectFit: "cover", minHeight: "200px" }}
+              />
+            </div>
           </Col>
 
           {/* Text Section */}

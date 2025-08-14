@@ -4,6 +4,8 @@ import EditProfile from "../../components/cards/edit_profile/EditProfile";
 import colors from "../../theme/colors";
 import { useNavigate } from "react-router";
 import profileImage from "../../../public/images/profile.webp";
+import { deleteUserById } from "../../utils/auth";
+import { fetchUser } from "../../utils/user";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -12,37 +14,7 @@ const Account = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAccount = async () => {
-      try {
-        const username = localStorage.getItem("username");
-        const password = localStorage.getItem("password");
-        const id = localStorage.getItem("id");
-        const btoaToken = btoa(username + ":" + password);
-
-        const response = await fetch(
-          `https://tamkeen-dev.com/api/user/${id}?_format=json`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Basic ${btoaToken}`,
-            },
-          }
-        );
-
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
-
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error("Error fetching account:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAccount();
+    fetchUser({ setUser, setLoading });
   }, []);
 
   const deleteAccount = async () => {
@@ -108,18 +80,25 @@ const Account = () => {
     }
   };
 
-  const deleteMyAccount = () => {
-    fetch(`https://tamkeen-dev.com/api/user/422?_format=json`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": `DTGvg8d13L8DHH1PrNn0rM-yASNh5uZNDUsMmYn7fvk`,
-      },
-    })
+  const deleteMyAccount3 = async (e) => {
+    e.preventDefault();
+    fetch(
+      `https://tamkeen-dev.com/api/user/${localStorage.getItem(
+        "id"
+      )}?_format=json`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": `${localStorage.getItem("apiToken")}`,
+        },
+      }
+    )
       .then((response) => {
         console.log("This is the status code: " + response.status);
-        // if (response.status !== 204)
-        //   throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status !== 204)
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        console.log("deleted");
         return response;
       })
       .then((data) => {
@@ -131,6 +110,22 @@ const Account = () => {
       .finally(() => {
         console.log("fetch done..");
       });
+  };
+
+  const deleteMyAccount = async (e) => {
+    e.preventDefault();
+
+    const userId = localStorage.getItem("user_id");
+    const csrfToken = localStorage.getItem("apiToken");
+
+    const success = await deleteUserById(userId, csrfToken);
+
+    if (success) {
+      // Optionally redirect, show toast, or clear localStorage
+      console.log("Account deletion confirmed");
+    } else {
+      console.log("Account deletion failed");
+    }
   };
 
   if (loading)

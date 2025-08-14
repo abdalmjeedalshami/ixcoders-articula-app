@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import registerImage from "../../../public/images/register/register.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
-import { UserModel } from "../../models/UserModel";
-import MySpinner from "../../components/common/MySpinner/MySpinner";
+import { registerUser } from "../../utils/auth";
 
 const Register = () => {
   const [inputData, setInputData] = useState({
@@ -30,6 +29,10 @@ const Register = () => {
       value: "",
     },
   });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [registerError, setRegisterError] = useState(null);
 
   const [user, setUser] = useState({
     uid: [
@@ -107,109 +110,27 @@ const Register = () => {
     ],
   });
 
-  const [registerError, setRegisterError] = useState();
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const resetInputData = () =>
+    setInputData({
+      name: { value: "" },
+      field_name: { value: "" },
+      field_surname: { value: "" },
+      mail: { value: "" },
+      field_mobile: { value: "" },
+      field_gender: { target_id: "" },
+      pass: { value: "" },
+    });
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const username = inputData.name.value;
-    const password = inputData.pass.value;
-    const basicAuth = btoa(`${username}:${password}`);
-
-    fetch(`https://tamkeen-dev.com/api/user/registerpass?_format=json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: {
-          value: inputData.name,
-        },
-        field_name: {
-          value: inputData.field_name,
-        },
-        field_surname: {
-          value: inputData.field_surname,
-        },
-        mail: {
-          value: inputData.mail,
-        },
-        field_mobile: {
-          value: inputData.field_mobile,
-        },
-        field_gender: {
-          target_id: inputData.field_gender.target_id,
-        },
-        pass: {
-          value: inputData.pass.value,
-        },
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((serverError) => {
-            throw new Error(
-              serverError.message || "حدث خطأ ما.. يرجى مراسلة مديرة الموقع"
-            );
-          });
-        }
-        localStorage.setItem("basicAuth", basicAuth);
-        setMessage(
-          "You have successfully created your account. An activation email sent to you via your email."
-        );
-        setRegisterError();
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setUser({
-          uid: data.uid,
-          uuid: data.uuid,
-          langcode: data.langcode,
-          name: data.name,
-          created: data.created,
-          changed: data.changed,
-          default_langcode: data.default_langcode,
-          path: data.path,
-          field_gender: data.field_gender,
-          field_mobile: data.field_mobile,
-          field_name: data.field_name,
-          field_surname: data.field_surname,
-          user_picture: data.user_picture,
-        });
-        setInputData({
-          name: {
-            value: "",
-          },
-          field_name: {
-            value: "",
-          },
-          field_surname: {
-            value: "",
-          },
-          mail: {
-            value: "",
-          },
-          field_mobile: {
-            value: "",
-          },
-          field_gender: {
-            target_id: "",
-          },
-          pass: {
-            value: "",
-          },
-        });
-      })
-      .catch((error) => {
-        setRegisterError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const onSubmit = (e) => {
+    registerUser({
+      event: e,
+      inputData,
+      setLoading,
+      setMessage,
+      setRegisterError,
+      setUser,
+      resetInputData,
+    });
   };
 
   useEffect(() => {
@@ -255,7 +176,7 @@ const Register = () => {
             >
               <h1>Register</h1>
 
-              <form id="registerForm" onSubmit={handleFormSubmit}>
+              <form id="registerForm" onSubmit={onSubmit}>
                 {/* username */}
                 <div className="mb-3">
                   <label htmlFor="Username">Username</label>

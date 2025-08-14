@@ -90,10 +90,10 @@ const MyFooter = () => {
               className="list-unstyled"
               style={{ color: colors.textMuted.navbar }}
             >
-              <li>Development</li>
-              <li>Finance & Accounting</li>
-              <li>Design</li>
-              <li>Business</li>
+              <li><NavLink to={"/faqs"}>Development</NavLink></li>
+              <li><NavLink to={"/faqs"}>Finance & Accounting</NavLink></li>
+              <li><NavLink to={"/faqs"}>Design</NavLink></li>
+              <li><NavLink to={"/faqs"}>Business</NavLink></li>
             </ul>
           </Col>
 
@@ -103,10 +103,10 @@ const MyFooter = () => {
               className="list-unstyled"
               style={{ color: colors.textMuted.navbar }}
             >
-              <li>About</li>
-              <li>Become an author →</li>
-              <li>Contact</li>
-              <li>Career</li>
+              <li><NavLink to={"/faqs"}>About</NavLink></li>
+              <li><NavLink to={"/faqs"}>Become an author</NavLink></li>
+              <li><NavLink to={"/faqs"}>Contact</NavLink></li>
+              <li><NavLink to={"/faqs"}>Career</NavLink></li>
             </ul>
           </Col>
 
@@ -116,42 +116,34 @@ const MyFooter = () => {
               className="list-unstyled"
               style={{ color: colors.textMuted.navbar }}
             >
-              <li>Help Center</li>
+              <li><NavLink to={"/faqs"}>Help Center</NavLink></li>
               <li>
                 <NavLink to={"/faqs"}>FAQs</NavLink>
               </li>
-              <li>Terms & Condition</li>
-              <li>Privacy Policy</li>
+              <li><NavLink to={"/faqs"}>Terms & Condition</NavLink></li>
+              <li><NavLink to={"/faqs"}>Privacy Policy</NavLink></li>
             </ul>
           </Col>
 
           {/* App Download */}
           <Col xs={6} md={3}>
             <h6>DOWNLOAD OUR APP</h6>
-            <div
-              className="mb-2 d-flex align-items-center gap-2 px-3 py-2"
-              style={{ backgroundColor: "#363B4766" }}
-            >
-              <FaApple size={20} />
-              <div>
-                <small style={{ color: colors.textMuted.navbar }}>
-                  Download now
-                </small>
-                <div>App Store</div>
-              </div>
-            </div>
-            <div
-              className="d-flex align-items-center gap-2 px-3 py-2"
-              style={{ backgroundColor: "#363B4766" }}
-            >
-              <FaGooglePlay size={20} />
-              <div>
-                <small style={{ color: colors.textMuted.navbar }}>
-                  Download now
-                </small>
-                <div>Play Store</div>
-              </div>
-            </div>
+            <div className="mb-2 d-flex align-items-center gap-2 px-3 py-2 app-button">
+  <FaApple size={20} />
+  <div>
+    <small style={{ color: colors.textMuted.navbar }}>Download now</small>
+    <div>App Store</div>
+  </div>
+</div>
+
+<div className="d-flex align-items-center gap-2 px-3 py-2 app-button">
+  <FaGooglePlay size={20} />
+  <div>
+    <small style={{ color: colors.textMuted.navbar }}>Download now</small>
+    <div>Play Store</div>
+  </div>
+</div>
+
           </Col>
         </Row>
 

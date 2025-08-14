@@ -1,36 +1,53 @@
-import Dropdown from "react-bootstrap/Dropdown";
-import { MdPersonOutline } from "react-icons/md";
-import "./myDropdown.css";
 import { useNavigate } from "react-router";
-import { apiFetch } from "../../../services/api";
 import profileImage from "../../../../public/images/profile.webp";
+import { handleLogout } from "../../../utils/auth";
+import Dropdown from "react-bootstrap/Dropdown";
+import "./myDropdown.css";
+
+
 
 function BasicExample() {
   const navigate = useNavigate();
 
-  async function handleLogout1() {
-    try {
-      await apiFetch("/logout", {
-        method: "POST",
-        body: { token: localStorage.getItem("apiToken") },
-        // requireCsrf: true,
-      });
+  // async function handleLogout1() {
+  //   try {
+  //     const qqq = await apiFetch("/logout", {
+  //       method: "POST",
+  //       body: { token: localStorage.getItem("apiToken") },
+  //       // requireCsrf: true,
+  //     });
 
-      localStorage.removeItem("apiToken");
-      localStorage.removeItem("token");
-      window.dispatchEvent(new Event("tokenUpdated"));
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //     localStorage.clear();
+  //     window.dispatchEvent(new Event("tokenUpdated"));
+  //     navigate("/login");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  const navigateToAccount = () => {
-    navigate("/account");
-  };
-  const navigateToMyArticles = () => {
-    navigate("/my_articles");
-  };
+  // const handleLogout2 = () => {
+  //   fetch(`https://tamkeen-dev.com/api/user/logout`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       token: localStorage.getItem("apiToken"),
+  //     }),
+  //   })
+  //     .then((respnose) => {
+  //       if (!respnose.ok) return new Error("errorrrr");
+  //       console.log("logged-out success");
+  //       localStorage.clear();
+  //       window.dispatchEvent(new Event("tokenUpdated"));
+  //       navigate("/login");
+  //     })
+  //     .then(() => {})
+  //     .catch((e) => {
+  //       console.log(e);
+  //     })
+  //     .finally(() => {});
+  // };
 
   return (
     <Dropdown className="custom-dropdown">
@@ -42,11 +59,27 @@ function BasicExample() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={navigateToAccount}>My Account</Dropdown.Item>
-        <Dropdown.Item onClick={navigateToMyArticles}>
+        <Dropdown.Item
+          onClick={(_) => {
+            navigate("/account");
+          }}
+        >
+          My Account
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            navigate("/my_articles");
+          }}
+        >
           My Articles
         </Dropdown.Item>
-        <Dropdown.Item onClick={handleLogout1}>Logout</Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            handleLogout(navigate);
+          }}
+        >
+          Logout
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

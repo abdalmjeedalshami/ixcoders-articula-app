@@ -1,5 +1,30 @@
+.article-card {
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Background image zoom on hover */
+.article-card .object-fit-cover {
+  transition: transform 0.4s ease;
+}
+
+.article-card:hover .object-fit-cover {
+  transform: scale(1.05);
+}
+
+/* Optional: subtle text color change on hover */
+.article-card:hover .article-description {
+  color: rgba(0, 0, 0, 0.85);
+}
+
 .article-tag {
-    font-size: .7rem;
+  font-size: .7rem;
 }
 
 .article-description {
@@ -17,12 +42,13 @@
 }
 
 .article-auth {
-    font-size: .7rem;
+  font-size: .7rem;
 }
 
 @media (min-width: 992px) {
   .article-col {
-    flex: 0 0 20%; /* 100 / 5 */
+    flex: 0 0 20%;
+    /* 100 / 5 */
     max-width: 20%;
   }
 }

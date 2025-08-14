@@ -1,21 +1,23 @@
-.article-tag {
-    font-size: .7rem;
+.writer-card {
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.article-description {
-    overflow: hidden;
-    display: -webkit-box;
-    display: box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    box-orient: vertical;
-    line-height: 1.4;
-    max-height: calc(1.4em * 2);
-    text-overflow: ellipsis;
-    font-size: .75rem;
+.writer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-.article-auth {
-    font-size: .7rem;
+/* Smooth zoom on image */
+.writer-card img {
+  transition: transform 0.4s ease;
+}
+
+.writer-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Highlight name on hover */
+.writer-card:hover .card-title {
+  color: var(--bs-primary); /* or your theme's primary color */
 }

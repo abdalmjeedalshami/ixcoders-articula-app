@@ -1,5 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import colors from "../../../theme/colors";
+import "./TrustedSection.css"
 
 const TrustedSection = ({ title, subtitle, companies }) => {
   return (
@@ -42,7 +43,7 @@ const TrustedSection = ({ title, subtitle, companies }) => {
                     className="mb-3 d-flex justify-content-center"
                   >
                     <a href={company.url} className="w-100">
-                      <div className="shadow py-5 px-2 w-100 h-100 d-flex align-items-center justify-content-center">
+                      <div className="company-card shadow py-5 px-2 w-100 h-100 d-flex align-items-center justify-content-center">
                         <img
                           src={company.image}
                           alt={company.name || "Company logo"}

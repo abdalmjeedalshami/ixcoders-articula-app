@@ -1,10 +1,11 @@
 import { Card, Row, Col } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import colors from "../../../theme/colors";
+import "./WriterCard.css"
 
 const WriterCard = ({ writer }) => {
   return (
-    <Card className="border rounded-0 shadow-sm text-center">
+    <Card className="writer-card border rounded-0 shadow-sm text-center">
       <Card.Img
         className="rounded-0"
         variant="top"

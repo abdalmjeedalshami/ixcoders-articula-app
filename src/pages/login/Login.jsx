@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import loginImage from "../../../public/images/login/login.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
-import { apiFetch } from "../../services/api";
 import { useNavigate } from "react-router";
+import { handleLogin } from "../../utils/auth";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     navigate("/");
-  //   }
-  // }, [navigate]);
-
   const [inputData, setInputData] = useState({
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [logInError, setLogInError] = useState(false);
 
   const [user, setUser] = useState({
     id: "",
@@ -29,101 +23,16 @@ const Login = () => {
     logout_token: "",
   });
 
-  const [logInError, setLogInError] = useState();
-  const [loading, setLoading] = useState(false);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setLogInError(false);
-    setLoading(true);
-
-    fetch(`https://tamkeen-dev.com/api/user/login?_format=json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: inputData.username,
-        pass: inputData.password,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((serverError) => {
-            throw new Error(
-              serverError.message || "حدث خطأ ما.. يرجى مراسلة مديرة الموقع"
-            );
-          });
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-
-        setUser({
-          id: data.current_user.uid,
-          roles: data.current_user.roles,
-          username: data.current_user.name,
-          csrf_token: data.csrf_token,
-          logout_token: data.logout_token,
-        });
-
-        const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
-        localStorage.setItem("basicAuth", btoa(basicAuth));
-        localStorage.setItem("username", inputData.username);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLogInError(err.message);
-      })
-      .finally(() => {
-        console.log("Fetch ended");
-        setLoading(false);
-      });
+  const onSubmit = (e) => {
+    handleLogin({
+      event: e,
+      inputData,
+      setLoading,
+      setLogInError,
+      setUser,
+      navigate,
+    });
   };
-
-  async function handleLogin(e) {
-    e.preventDefault();
-    setLogInError(false);
-    setLoading(true);
-    try {
-      const data = await apiFetch("/login?_format=json", {
-        method: "POST",
-        body: { name: inputData.username, pass: inputData.password },
-      });
-
-      setUser({
-        id: data.current_user.uid,
-        roles: data.current_user.roles,
-        username: data.current_user.name,
-        csrf_token: data.csrf_token,
-        logout_token: data.logout_token,
-      });
-      const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
-      localStorage.setItem("username", data.current_user.name);
-      localStorage.setItem("id", data.current_user.uid);
-      localStorage.setItem("password", inputData.password);
-      localStorage.setItem("token", btoa(basicAuth));
-      localStorage.setItem("apiToken", data.csrf_token);
-      window.dispatchEvent(new Event("tokenUpdated"));
-      navigate("/");
-    } catch (error) {
-      setLogInError(error.message);
-      console.error(error);
-    }
-    setLoading(false);
-  }
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("token") && localStorage.getItem("username")) {
-  //     setUser({
-  //       ...user,
-  //       username: localStorage.getItem("username"),
-  //     });
-  //   }
-
-  //   setInitializing(false);
-  // }, []);
 
   return (
     <div
@@ -154,7 +63,7 @@ const Login = () => {
               }}
             >
               <h1>Login</h1>
-              <form id="loginForm" onSubmit={handleLogin}>
+              <form id="loginForm" onSubmit={onSubmit}>
                 {logInError ? (
                   <div className="alert alert-danger mb-3">{logInError}</div>
                 ) : (

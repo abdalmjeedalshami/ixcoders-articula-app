@@ -6,6 +6,50 @@
 }
 
 .social-icon:hover {
-  background-color: var(--primary-color); /* Change this to match your theme */
+  background-color: var(--primary-color);
+  /* Change this to match your theme */
   text-decoration: none;
+}
+
+/* Footer links */
+footer ul li a {
+  color: #8c94a3;
+  display: inline-block;
+  transition: color 0.25s ease, transform 0.25s ease;
+  border-bottom: 1px solid transparent;
+  padding-block: .2rem;
+}
+
+footer ul li a:hover {
+  color: var(--primary-color);
+  /* fallback if no CSS var */
+  transform: translateX(2px);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* App download buttons */
+footer .app-button {
+  background-color: #363b4766;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+footer .app-button:hover {
+  background-color: #4a4f5c;
+  transform: translateY(-3px);
+}
+
+footer ul li a::after {
+  content: "→";                /* the arrow */
+  opacity: 0;                   /* hidden by default */
+  transform: translateX(-6px);  /* slide it in from left */
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: inline-block;
+}
+
+/* Show arrow on hover or focus */
+footer ul li a:hover::after,
+footer ul li a:focus::after {
+  opacity: 1;
+  transform: translateX(0);
 }
