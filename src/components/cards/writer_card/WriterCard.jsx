@@ -7,7 +7,7 @@ const WriterCard = ({ writer }) => {
   return (
     <Card className="writer-card border rounded-0 shadow-sm text-center">
       <Card.Img
-        className="rounded-0"
+        className="rounded-0 h-75"
         variant="top"
         src={writer.image}
         alt={writer.name}

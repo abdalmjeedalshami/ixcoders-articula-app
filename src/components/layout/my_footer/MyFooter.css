@@ -40,12 +40,22 @@ footer .app-button:hover {
 }
 
 footer ul li a::after {
-  content: "→";                /* the arrow */
-  opacity: 0;                   /* hidden by default */
-  transform: translateX(-6px);  /* slide it in from left */
+  content: "→";
+  /* default LTR arrow */
+  opacity: 0;
+  transform: translateX(-6px);
   transition: opacity 0.25s ease, transform 0.25s ease;
   display: inline-block;
 }
+
+/* RTL override */
+[dir="rtl"] footer ul li a::after {
+  content: "←";
+  /* reversed arrow for RTL */
+  transform: translateX(6px);
+  /* slide in from right */
+}
+
 
 /* Show arrow on hover or focus */
 footer ul li a:hover::after,

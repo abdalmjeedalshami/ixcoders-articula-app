@@ -16,7 +16,11 @@ const CategoryCard = ({ big, category }) => {
       data-aos-duration="1000"
       data-aos-offset="200"
     >
-      <NavLink className="text-decoration-none" to={`/products/${category.id}`}>
+      <NavLink
+        to={`/category/${category.id}`}
+        state={{ categoryName: category.name }}
+        className="text-decoration-none"
+      >
         <div
           className="category-card p-3 overflow-hidden h-100"
           style={{
@@ -37,7 +41,9 @@ const CategoryCard = ({ big, category }) => {
             {big && <Col></Col>}
 
             <Col xs={9}>
-              <p className="mb-1 fw-bold text-wrap">{category.name}</p>
+              <p className="mb-1 fw-bold text-wrap text-capitalize">
+                {category.name}
+              </p>
               {!big && (
                 <p className="m-0" style={{ color: colors.textMuted.category }}>
                   {category.articleCount} Articles

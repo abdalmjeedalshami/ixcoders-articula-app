@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import MyButton from "../../components/common/my_button/MyButton";
 import EditProfile from "../../components/cards/edit_profile/EditProfile";
-import colors from "../../theme/colors";
 import { useNavigate } from "react-router";
 import profileImage from "../../../public/images/profile.webp";
 import { deleteUserById } from "../../utils/auth";
 import { fetchUser } from "../../utils/user";
+import { AiOutlineClose } from "react-icons/ai";
+import MySpinner from "../../components/common/mySpinner/MySpinner";
 
 const Account = () => {
   const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     fetchUser({ setUser, setLoading });
-  }, []);
+  }, [refreshFlag]);
 
   const deleteAccount = async () => {
     try {
@@ -121,59 +123,53 @@ const Account = () => {
     const success = await deleteUserById(userId, csrfToken);
 
     if (success) {
-      // Optionally redirect, show toast, or clear localStorage
       console.log("Account deletion confirmed");
     } else {
       console.log("Account deletion failed");
     }
   };
 
-  if (loading)
-    return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading Your Profile...</span>
-        </div>
-        <p className="mt-3 fs-6 text-muted">Loading Your Profile…</p>
-      </div>
-    );
+  if (loading) return <MySpinner />;
   if (!user)
     return <p className="text-center mt-5">Unable to load profile data.</p>;
 
   return (
     <div className="container mx-auto p-5">
       {/* Profile Header */}
-      <div className="row align-items-center g-4 pb-2">
-        <div className="col-12 col-md-auto text-center text-md-start">
+      <div className="row align-items-center g-4 pb-2" data-aos="fade-up">
+        <div
+          className="col-12 col-md-auto text-center text-md-start"
+          data-aos="zoom-in"
+        >
           <img
             src={user.user_picture?.[0]?.url || "/images/default-profile.jpg"}
             alt="Profile"
             className="img-fluid border"
             style={{ maxWidth: "150px", height: "auto", objectFit: "cover" }}
             onError={(e) => {
-              e.target.onerror = null; // Prevent infinite loop
-              e.target.src = profileImage; // Fallback image
+              e.target.onerror = null;
+              e.target.src = profileImage;
             }}
           />
         </div>
 
-        <div className="col">
-          <div className="d-flex justify-content-between">
+        <div className="col" data-aos="fade-left">
+          <div className="d-flex justify-content-between align-items-start">
             <h1 className="fw-bold mb-1">
               {user.field_name?.[0]?.value} {user.field_surname?.[0]?.value}
             </h1>
-            <button
-              className="btn"
-              style={{ backgroundColor: colors.primary, color: "white" }}
-              onClick={() => setShowEdit(true)}
-            >
-              Edit
-            </button>
+            <MyButton
+              text="Edit"
+              onClick={() => {
+                setShowEdit(true);
+              }}
+            />
           </div>
           <p className="fs-5 text-muted mb-1">@{user.name?.[0]?.value}</p>
           <p className="fs-6 text-muted">{user.mail?.[0]?.value}</p>
         </div>
       </div>
+
       {/* Account Info */}
       <div className="mt-4">
         {[
@@ -201,6 +197,9 @@ const Account = () => {
           <div
             key={index}
             className="row py-2 border-bottom align-items-center text-break"
+            data-aos="fade-up"
+            data-aos-delay={100 + index * 50}
+            data-aos-offset="0"
           >
             <div className="col-6 fw-medium">{label}</div>
             <div className="col-6 text-end">{value}</div>
@@ -209,14 +208,18 @@ const Account = () => {
       </div>
 
       {/* Delete Button */}
-      <div className="text-end mt-4">
-        <button
-          className="btn btn-danger"
-          style={{ color: "white" }}
+      <div
+        className="text-end mt-4"
+        data-aos="fade-up"
+        data-aos-easing="ease-in-back"
+        // data-aos-delay="0"
+        data-aos-offset="0"
+      >
+        <MyButton
+          text="Delete My Account"
+          backgroundColor="red"
           onClick={deleteMyAccount}
-        >
-          Delete My Account
-        </button>
+        />
       </div>
 
       {/* Modal */}
@@ -234,18 +237,20 @@ const Account = () => {
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
           >
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header d-flex justify-content-between">
                 <h5 className="modal-title">Edit Profile</h5>
-                <button
-                  type="button"
-                  className="btn-close"
+                <MyButton
+                  classes="p-0 rounded-2"
+                  text={
+                    <>
+                      <AiOutlineClose />
+                    </>
+                  }
                   onClick={() => setShowEdit(false)}
-                  aria-label="Close"
-                  style={{ backgroundColor: colors.primary }}
                 />
               </div>
               <div className="modal-body">
-                <EditProfile user={user} />
+                <EditProfile user={user} setRefreshFlag={setRefreshFlag} />
               </div>
             </div>
           </div>

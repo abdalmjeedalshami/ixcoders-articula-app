@@ -26,9 +26,14 @@ const MyForm = ({ fields = [], onSubmit, buttonText = "Submit" }) => {
       {fields.map((fieldGroup, idx) =>
         fieldGroup.row ? (
           <Row key={idx}>
-            {fieldGroup.fields.map((field) => (
-              <Col md={6} key={field.name}>
-                <Form.Group controlId={field.name}>
+            {fieldGroup.fields.map((field, index) => (
+              <Col
+                md={6}
+                key={field.name}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <Form.Group controlId={field.name} className="mb-3">
                   {field.label && (
                     <Form.Label
                       className="fs-6 m-0"
@@ -54,7 +59,13 @@ const MyForm = ({ fields = [], onSubmit, buttonText = "Submit" }) => {
             ))}
           </Row>
         ) : (
-          <Form.Group controlId={fieldGroup.name} key={fieldGroup.name}>
+          <Form.Group
+            controlId={fieldGroup.name}
+            key={fieldGroup.name}
+            className="mb-3"
+            data-aos="fade-up"
+            data-aos-delay={idx * 100}
+          >
             {fieldGroup.label ? (
               <Form.Label
                 className="fs-6 m-0"
@@ -62,7 +73,7 @@ const MyForm = ({ fields = [], onSubmit, buttonText = "Submit" }) => {
               >
                 {fieldGroup.label}
               </Form.Label>
-            ): (
+            ) : (
               <div className="mb-3"></div>
             )}
             <Form.Control
@@ -81,7 +92,9 @@ const MyForm = ({ fields = [], onSubmit, buttonText = "Submit" }) => {
           </Form.Group>
         )
       )}
-      <MyButton text={buttonText} type="submit" classes="mt-4" />
+      <div data-aos="fade-up" data-aos-delay={fields.length * 100}>
+        <MyButton text={buttonText} type="submit" classes="mt-4" />
+      </div>
     </Form>
   );
 };

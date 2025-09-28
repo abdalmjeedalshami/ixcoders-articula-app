@@ -1,7 +1,4 @@
-
-
-
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
 function formatBytes(bytes) {
@@ -69,15 +66,13 @@ export default function GalleryDropzone({ files, setFiles }) {
   return (
     <div>
       <div
+      className="p-3"
         {...getRootProps()}
         style={{
-          padding: 20,
           border: "2px dashed #ccc",
-          borderRadius: 8,
           background: isDragActive ? "#f0f8ff" : "#fff",
           textAlign: "center",
           cursor: "pointer",
-          marginBottom: 16,
         }}
       >
         <input {...getInputProps()} />

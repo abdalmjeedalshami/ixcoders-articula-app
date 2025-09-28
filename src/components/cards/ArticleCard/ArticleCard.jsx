@@ -1,7 +1,9 @@
 import { useState } from "react";
 import colors from "../../../theme/colors";
+import MyButton from "../../common/my_button/MyButton";
+import def_blog_image from "../../../../public/images/def_blog_image.jpg";
 
-const ArticleCard2 = ({ article }) => {
+const ArticleCard = ({ article, articleKey }) => {
   const [mainImage, setMainImage] = useState(
     `https://tamkeen-dev.com${article.field_image}`
   );
@@ -15,24 +17,42 @@ const ArticleCard2 = ({ article }) => {
     : [];
 
   return (
-    <div className="col-12 col-md-6 col-lg-4" key={article.id}>
+    <div
+      className="col-12 col-md-6 col-lg-4"
+      data-aos="fade-up"
+      data-aos-delay={articleKey * 10}
+      data-aos-duration="800"
+      data-aos-once="true"
+    >
       <div className="card h-100 shadow-sm border-0 rounded-0">
         {/* Article Image */}
         <img
-          src={mainImage}
+          src={mainImage || def_blog_image} // fallback if mainImage is empty
           className="card-img-top rounded-0"
           alt={article.title}
           style={{ height: "200px", objectFit: "cover" }}
           onMouseLeave={() =>
-            setMainImage(`https://tamkeen-dev.com${article.field_image}`)
+            setMainImage(
+              article.field_image
+                ? `https://tamkeen-dev.com${article.field_image}`
+                : def_blog_image
+            )
           }
+          onError={(e) => {
+            e.target.onerror = null; // prevent infinite loop
+            e.target.src = def_blog_image; // fallback image
+          }}
         />
 
-        {/* Gallery Thumbnails */}
+        {/* Gallery Thumbnails - Single Row */}
         {galleryImages.length > 0 && (
           <div
-            className="d-flex overflow-auto px-2 pt-2"
-            style={{ gap: "0.5rem", scrollbarWidth: "thin" }}
+            className="d-flex px-2 pt-2"
+            style={{
+              gap: "0.5rem",
+              overflow: "hidden",
+              flexWrap: "nowrap",
+            }}
           >
             {galleryImages.map((imgUrl, idx) => (
               <img
@@ -46,11 +66,33 @@ const ArticleCard2 = ({ article }) => {
                   borderRadius: "4px",
                   cursor: "pointer",
                   flexShrink: 0,
+                  display: idx < 5 ? "block" : "none", // show only first 5 thumbnails
                 }}
                 onMouseEnter={() => setMainImage(imgUrl)}
                 onClick={() => window.open(imgUrl, "_blank")}
               />
             ))}
+
+            {/* Optional: show "+N more" indicator */}
+            {galleryImages.length > 5 && (
+              <div
+                style={{
+                  height: "60px",
+                  width: "60px",
+                  borderRadius: "4px",
+                  background: "#eee",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.8rem",
+                  color: "#555",
+                  cursor: "pointer",
+                }}
+                onClick={() => window.openGallery && window.openGallery()} // optional callback
+              >
+                +{galleryImages.length - 5}
+              </div>
+            )}
           </div>
         )}
 
@@ -84,19 +126,19 @@ const ArticleCard2 = ({ article }) => {
               ))}
             </div>
           )}
-
           {/* Read More Button */}
-          <a
-            href={`/articles/${article.id}`}
-            className="btn btn-outline mt-auto rounded-0"
-            style={{ borderColor: colors.primary }}
-          >
-            Read More
-          </a>
+          <MyButton
+            route={`/blog/${article.id}`}
+            text="Read More"
+            color={colors.primary}
+            backgroundColor={colors.secondary}
+            hoverColor="white"
+            hoverBackgroundColor={colors.primary}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default ArticleCard2;
+export default ArticleCard;

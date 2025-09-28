@@ -44,7 +44,7 @@ const FormSection = () => {
       <Container>
         {/* Main Title */}
         <Row className="mb-1 text-center">
-          <Col>
+          <Col data-aos="fade-down">
             <p
               className="fs-1"
               style={{
@@ -59,7 +59,12 @@ const FormSection = () => {
 
         <Row className="flex-column-reverse flex-md-row">
           {/* Left Column: Contact Details */}
-          <Col md={6} className="pe-md-5">
+          <Col
+            md={6}
+            className="pe-md-5"
+            data-aos="fade-right"
+            data-aos-delay={100}
+          >
             {" "}
             {/* Padding to the right for separation */}
             <p
@@ -72,7 +77,11 @@ const FormSection = () => {
               Stop by the office! We'd love to meet.
             </p>
             {/* Address */}
-            <Row className="d-flex mb-4 border-bottom pb-4">
+            <Row
+              className="d-flex mb-4 border-bottom pb-4"
+              data-aos="fade-up"
+              data-aos-delay={200}
+            >
               <Col
                 className="text-capitalize"
                 style={{
@@ -90,7 +99,11 @@ const FormSection = () => {
               </Col>
             </Row>
             {/* Phone Number */}
-            <Row className="d-flex mb-4 border-bottom pb-4">
+            <Row
+              className="d-flex mb-4 border-bottom pb-4"
+              data-aos="fade-up"
+              data-aos-delay={300}
+            >
               <Col
                 className="text-capitalize"
                 style={{
@@ -108,7 +121,11 @@ const FormSection = () => {
               </Col>
             </Row>
             {/* Email Address */}
-            <Row className="d-flex mb-4 pb-4">
+            <Row
+              className="d-flex mb-4 pb-4"
+              data-aos="fade-up"
+              data-aos-delay={400}
+            >
               <Col
                 className="text-capitalize"
                 style={{

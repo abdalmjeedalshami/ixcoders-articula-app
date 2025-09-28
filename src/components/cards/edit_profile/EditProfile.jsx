@@ -1,23 +1,26 @@
 import { useState } from "react";
 import colors from "../../../theme/colors";
 import { editUser } from "../../../utils/user";
+import MyButton from "../../common/my_button/MyButton";
 
-const EditProfile = ({ user }) => {
+const EditProfile = ({ user, setRefreshFlag }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [currentPass, setCurrentPass] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ loading state
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    await editUser({
+    setLoading(true); // ✅ start loading
+
+    const success = await editUser({
       selectedFile,
       user,
       firstName,
@@ -26,6 +29,12 @@ const EditProfile = ({ user }) => {
       currentPass,
       setMessage,
     });
+
+    if (success) {
+      setRefreshFlag((prev) => !prev);
+    }
+
+    setLoading(false); // ✅ stop loading
   };
 
   return (
@@ -61,15 +70,6 @@ const EditProfile = ({ user }) => {
             className="form-control"
             onInput={handleFileChange}
           />
-
-          {/* <button
-            className="btn btn-primary mt-2"
-            onClick={handleUpload}
-            disabled={!selectedFile}
-            type="button"
-          >
-            Upload
-          </button> */}
         </div>
 
         {/* Optional email update */}
@@ -96,13 +96,12 @@ const EditProfile = ({ user }) => {
           </div>
         )}
 
-        <button
+        <MyButton
+          text={loading ? "Updating..." : "Update Profile"} // ✅ change text
           type="submit"
-          className="btn"
-          style={{ backgroundColor: colors.primary, color: "white" }}
-        >
-          Update Profile
-        </button>
+          classes="rounded-2"
+          disabled={loading} // ✅ disable button
+        />
       </form>
 
       {message && <p className="mt-3">{message}</p>}

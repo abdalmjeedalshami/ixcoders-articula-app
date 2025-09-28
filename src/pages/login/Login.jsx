@@ -42,7 +42,8 @@ const Login = () => {
     >
       <Container fluid>
         <Row className="g-0">
-          <Col md={5} className="d-none d-md-block">
+          {/* Left Image Panel */}
+          <Col md={5} className="d-none d-md-block" data-aos="fade-right">
             <div
               className="vh-100 top-0"
               style={{
@@ -53,7 +54,9 @@ const Login = () => {
               }}
             ></div>
           </Col>
-          <Col xs={12} md={7}>
+
+          {/* Right Form Panel */}
+          <Col xs={12} md={7} data-aos="fade-left" data-aos-delay={100}>
             <div
               style={{
                 minHeight: "100vh",
@@ -62,51 +65,57 @@ const Login = () => {
                 backgroundColor: "white",
               }}
             >
-              <h1>Login</h1>
+              <h1 data-aos="fade-down" data-aos-delay={200}>
+                Login
+              </h1>
+
               <form id="loginForm" onSubmit={onSubmit}>
-                {logInError ? (
-                  <div className="alert alert-danger mb-3">{logInError}</div>
-                ) : (
-                  ""
+                {logInError && (
+                  <div
+                    className="alert alert-danger mb-3"
+                    data-aos="fade-up"
+                    data-aos-delay={300}
+                  >
+                    {logInError}
+                  </div>
                 )}
-                {/* username */}
-                <div className="mb-3">
+
+                {/* Username */}
+                <div className="mb-3" data-aos="fade-up" data-aos-delay={400}>
                   <input
                     type="text"
                     placeholder="Type your username"
                     className="form-control"
                     id="username"
-                    onInput={(e) => {
-                      setInputData({
-                        ...inputData,
-                        username: e.target.value,
-                      });
-                    }}
+                    onInput={(e) =>
+                      setInputData({ ...inputData, username: e.target.value })
+                    }
                     required
                   />
                 </div>
+
                 {/* Password */}
-                <div className="mb-3">
+                <div className="mb-3" data-aos="fade-up" data-aos-delay={500}>
                   <input
                     type="password"
                     placeholder="Type your password"
                     className="form-control"
                     id="password"
-                    onInput={(e) => {
-                      setInputData({
-                        ...inputData,
-                        password: e.target.value,
-                      });
-                    }}
+                    onInput={(e) =>
+                      setInputData({ ...inputData, password: e.target.value })
+                    }
                     required
                   />
                 </div>
-                {/* Register button */}
-                <MyButton
-                  type="submit"
-                  disabled={loading}
-                  text={loading ? "Signing in ...." : "Sign in"}
-                />
+
+                {/* Submit Button */}
+                <div data-aos="fade-up" data-aos-delay={600}>
+                  <MyButton
+                    type="submit"
+                    disabled={loading}
+                    text={loading ? "Signing in ...." : "Sign in"}
+                  />
+                </div>
               </form>
             </div>
           </Col>

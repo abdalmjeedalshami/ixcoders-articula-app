@@ -110,9 +110,11 @@ export async function editUser({
     }
 
     setMessage?.("Profile updated successfully ✅");
+
+    return true;
   } catch (error) {
     console.error("Error during upload or update:", error);
     setMessage?.("Failed to update profile ❌");
+    return false;
   }
 }
-

@@ -1,9 +1,10 @@
-.skew-left {
-  transform: none;
-}
-
+/* Default for LTR */
 @media (min-width: 992px) {
-  .skew-left {
+  :dir(ltr) .skew-left {
     clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  :dir(rtl) .skew-left {
+    clip-path: polygon(0% 0%, 90% 0%, 100% 100%, 0% 100%);
   }
 }

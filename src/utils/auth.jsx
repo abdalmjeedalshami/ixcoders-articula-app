@@ -152,12 +152,12 @@ export const handleLogout = async (navigate) => {
 export const deleteUserById = async (userId, csrfToken) => {
   try {
     const response = await fetch(
-      `https://tamkeen-dev.com/api/user/422?_format=json`,
+      `https://tamkeen-dev.com/api/user/${userId}?_format=json`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": `61oNrOZYuXPqaBSZVAmvML4J9ivWJ3GLf-pOBoZcrvA`,
+          "X-CSRF-Token": csrfToken,
         },
       }
     );
@@ -165,7 +165,7 @@ export const deleteUserById = async (userId, csrfToken) => {
     console.log("Status code:", response.status);
 
     if (response.status !== 204) {
-      const errorText = await response.text(); // In case server returns error details
+      const errorText = response; // In case server returns error details
       throw new Error(`Delete failed: ${response.status} - ${errorText}`);
     }
 

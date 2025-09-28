@@ -1,10 +1,12 @@
-import Spinner from "react-bootstrap/Spinner";
+import "./MySpinner.css";
 
 function MySpinner() {
   return (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+    <div className="mt-5 d-flex justify-content-center align-items-center">
+      <span class="loader" style={{ color: "black" }}>
+        Load&nbsp;ng
+      </span>
+    </div>
   );
 }
 

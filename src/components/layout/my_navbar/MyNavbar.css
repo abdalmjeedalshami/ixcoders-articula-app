@@ -39,6 +39,21 @@
   align-items: center;
 }
 
-.offcanvas-body a:hover {
+.offcanvas.show .navbar-nav a {
+  border-inline-start: 3px solid transparent;
+  padding-inline-start: 1rem;
+}
+
+.offcanvas.show .navbar-nav a:hover {
+  border-inline-start-color: #FF6636;
+  color: #FF6636;
+}
+
+.socials a:hover {
   color: var(--primary-color);
+}
+
+.offcanvas.show .socials a:hover,
+.offcanvas.show button:hover {
+  color: #FF6636 !important;
 }

@@ -1,88 +1,113 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { Offcanvas, Dropdown, Button } from "react-bootstrap";
 import profileImage from "../../../../public/images/profile.webp";
 import { handleLogout } from "../../../utils/auth";
-import Dropdown from "react-bootstrap/Dropdown";
 import "./myDropdown.css";
+import { useTranslation } from "react-i18next";
 
+function MyDropdown() {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
 
-
-function BasicExample() {
   const navigate = useNavigate();
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 959);
 
-  // async function handleLogout1() {
-  //   try {
-  //     const qqq = await apiFetch("/logout", {
-  //       method: "POST",
-  //       body: { token: localStorage.getItem("apiToken") },
-  //       // requireCsrf: true,
-  //     });
+  const handleClose = () => setShowOffcanvas(false);
+  const handleShow = () => setShowOffcanvas(true);
 
-  //     localStorage.clear();
-  //     window.dispatchEvent(new Event("tokenUpdated"));
-  //     navigate("/login");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  // Listen to window resize
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 959);
+    window.addEventListener("resize", handleResize);
 
-  // const handleLogout2 = () => {
-  //   fetch(`https://tamkeen-dev.com/api/user/logout`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       token: localStorage.getItem("apiToken"),
-  //     }),
-  //   })
-  //     .then((respnose) => {
-  //       if (!respnose.ok) return new Error("errorrrr");
-  //       console.log("logged-out success");
-  //       localStorage.clear();
-  //       window.dispatchEvent(new Event("tokenUpdated"));
-  //       navigate("/login");
-  //     })
-  //     .then(() => {})
-  //     .catch((e) => {
-  //       console.log(e);
-  //     })
-  //     .finally(() => {});
-  // };
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <Dropdown className="custom-dropdown">
-      <Dropdown.Toggle id="dropdown-basic">
-        <div className="d-flex align-items-center gap-3">
-          {localStorage.getItem("username")}
-          <img height={20} src={profileImage} alt="" />
-        </div>
-      </Dropdown.Toggle>
+    <>
+      {isMobile ? (
+        <>
+          <Button
+            variant="light"
+            onClick={handleShow}
+            className="d-flex align-items-center gap-2"
+          >
+            {localStorage.getItem("username")}
+            <img height={20} src={profileImage} alt="Profile" />
+          </Button>
 
-      <Dropdown.Menu>
-        <Dropdown.Item
-          onClick={(_) => {
-            navigate("/account");
-          }}
-        >
-          My Account
-        </Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => {
-            navigate("/my_articles");
-          }}
-        >
-          My Articles
-        </Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => {
-            handleLogout(navigate);
-          }}
-        >
-          Logout
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+          <Offcanvas
+            show={showOffcanvas}
+            onHide={handleClose}
+            placement={isArabic ? "end" : "start"}
+          >
+            <Offcanvas.Header
+              className={
+                isArabic ? "justify-content-start" : "justify-content-end"
+              }
+            >
+              <Offcanvas.Title>{isArabic ? "القائمة" : "Menu"}</Offcanvas.Title>
+            </Offcanvas.Header>
+
+            <Offcanvas.Body className="d-flex flex-column gap-2">
+              <Button
+                variant="outline-primary"
+                onClick={() => {
+                  navigate("/account");
+                  handleClose();
+                }}
+              >
+                {isArabic ? "حسابي" : "My Account"}
+              </Button>
+              <Button
+                variant="outline-primary"
+                onClick={() => {
+                  navigate("/my_articles");
+                  handleClose();
+                }}
+              >
+                {isArabic ? "مقالاتي" : "My Articles"}
+              </Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => {
+                  handleLogout(navigate);
+                  handleClose();
+                }}
+              >
+                {isArabic ? "تسجيل الخروج" : "Logout"}
+              </Button>
+            </Offcanvas.Body>
+          </Offcanvas>
+        </>
+      ) : (
+        <Dropdown className="custom-dropdown">
+          <Dropdown.Toggle id="dropdown-basic" className="px-0">
+            <div className="d-flex align-items-center gap-3">
+              {localStorage.getItem("username")}
+              <img height={20} src={profileImage} alt="Profile" />
+            </div>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu align={isArabic ? "end" : "start"}>
+            <Dropdown.Item onClick={() => navigate("/account")}>
+              My Account
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate("/my_articles")}>
+              My Articles
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleLogout(navigate)}>
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
+    </>
   );
 }
 
-export default BasicExample;
+export default MyDropdown;

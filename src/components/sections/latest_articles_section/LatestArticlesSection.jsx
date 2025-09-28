@@ -1,8 +1,11 @@
 import { Container, Row, Col } from "react-bootstrap";
 import ArticleCard from "../../cards/article_card/ArticleCard";
 import colors from "../../../theme/colors";
+import { useTranslation } from "react-i18next";
 
 const LatestArticlesSection = ({ articles }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
   return (
     <>
       <Container
@@ -12,7 +15,7 @@ const LatestArticlesSection = ({ articles }) => {
       >
         <Container>
           <h1 className="text-center mb-4" data-aos="fade-up">
-            Latest Articles
+            {isArabic ? "أحدث المقالات" : "Latest Articles"}
           </h1>
           <Row className="flex-wrap">
             {articles.map((article) => (

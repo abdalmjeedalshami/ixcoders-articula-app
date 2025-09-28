@@ -84,7 +84,7 @@ const Contact = () => {
           height: "250px",
           background: `url(${mapImage})`,
           backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
+          // backgroundAttachment: "fixed",
           backgroundSize: "cover",
         }}
       ></div>

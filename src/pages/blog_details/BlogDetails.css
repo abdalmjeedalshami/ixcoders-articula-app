@@ -1,0 +1,9 @@
+.my-badge {
+    background-color: var(--primary-color) !important;
+}
+
+/* Add some padding outside navigation buttons */
+.custom-swiper .swiper-button-next,
+.custom-swiper .swiper-button-prev {
+    color: var(--primary-color);
+}

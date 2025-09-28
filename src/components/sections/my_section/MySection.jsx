@@ -1,9 +1,18 @@
 import { Container, Col, Row } from "react-bootstrap";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import colors from "../../../theme/colors";
 import { NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 
-const MySection = ({ backgroundColor="white", isCard, header, body, footer }) => {
+const MySection = ({
+  backgroundColor = "white",
+  isCard,
+  header,
+  body,
+  footer,
+}) => {
+  const { i18n } = useTranslation();
+
   return (
     <div style={{ backgroundColor: backgroundColor }}>
       <Container
@@ -57,12 +66,13 @@ const MySection = ({ backgroundColor="white", isCard, header, body, footer }) =>
                   <NavLink
                     className="text-decoration-none"
                     to={footer.tail.route}
-                    style={{ color: `${colors.primary}` }}
+                    style={{ color: colors.primary }}
                     data-aos="fade-left"
                     data-aos-duration="1500"
                     data-aos-offset="200"
                   >
-                    {footer.tail.text} <FaArrowRight />
+                    {`${footer.tail.text}`}{" "}
+                    {i18n.language != "en" ? <FaArrowLeft /> : <FaArrowRight />}
                   </NavLink>
                 </div>
               </div>

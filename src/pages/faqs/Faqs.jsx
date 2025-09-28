@@ -6,6 +6,7 @@ import MyForm from "../../components/common/my_form/MyForm";
 import colors from "../../theme/colors";
 import MyFooter from "../../components/layout/my_footer/MyFooter";
 import { useEffect, useState } from "react";
+import MySpinner from "../../components/common/mySpinner/MySpinner";
 
 const breadcrumbPath = [
   { label: "Home", to: "/" },
@@ -67,12 +68,7 @@ const Faqs = () => {
           </Col>
           <Col md={6}>
             {loading ? (
-              <div className="text-center py-5">
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading FAQs...</span>
-                </div>
-                <p className="mt-3 fs-6 text-muted">Loading FAQs…</p>
-              </div>
+              <MySpinner />
             ) : error ? (
               <div className="text-danger text-center py-5">{error}</div>
             ) : (

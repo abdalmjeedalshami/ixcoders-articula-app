@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -23,6 +22,11 @@ import Jobs from "./pages/jobs/Jobs";
 import Faqs from "./pages/faqs/faqs";
 import { Helmet } from "react-helmet";
 import BlogCreatePage from "./pages/create_blog/BlogCreatePage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+// import BlogDetails from "./pages/blog_details/BlogDetails";
+import BlogPage from "./pages/BlogPage";
+import TagPage from "./components/TagPage";
+import CategoryArticles from "./pages/category_articles/CategoryArticles";
 
 function App() {
   useEffect(() => {
@@ -75,10 +79,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/blog/:id" element={<BlogPage />} />
+          <Route path="/tag/:name" element={<TagPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/create_blog" element={<BlogCreatePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/category/:id" element={<CategoryArticles />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

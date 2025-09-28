@@ -61,9 +61,7 @@ const About = () => {
         <title>About Us | Articula</title>
         <meta name="description" content="Learn more about us" />
       </Helmet>
-      
       <MyBreadcrumb title={"About"} path={breadcrumbPath} />
-
       <BasicSection
         classes={"mb-5"}
         split
@@ -74,9 +72,7 @@ const About = () => {
         }}
         image={menImage}
       />
-
       <MyLine color={""} />
-
       <TrustedSection
         title="We Just keep growing with 6.3k Companies"
         subtitle="Nullam egestas tellus at enim ornare tristique. Class aptent taciti sociosqu ad litora torquent"
@@ -123,13 +119,12 @@ const About = () => {
           },
         ]}
       />
-
       <StatsSection />
 
-      <section style={{ backgroundColor: colors.backgrounds.about }}>
+      <section className="overflow-hidden" style={{ backgroundColor: colors.backgrounds.about }}>
         <Container>
           <Row>
-            <Col md={6}>
+            <Col md={6} data-aos="fade-right" data-aos-delay="100">
               <div
                 className="mx-auto h-100"
                 style={{
@@ -142,16 +137,17 @@ const About = () => {
                 }}
               ></div>
             </Col>
-            <Col md={6}>
+
+            <Col md={6} data-aos="fade-left" data-aos-delay="200">
               <div className="px-5 my-5">
                 <p className="m-0" style={{ color: colors.primary }}>
                   OUR ONE BILLION MISSION
                 </p>
                 <p
                   className="fs-1 fw-bold"
-                  style={{
-                    color: colors.blackBackground,
-                  }}
+                  style={{ color: colors.blackBackground }}
+                  data-aos="fade-up"
+                  data-aos-delay="300"
                 >
                   Our one billion mission sounds bold, We agree.
                 </p>
@@ -160,6 +156,8 @@ const About = () => {
                     fontSize: "1rem",
                     color: colors.textMuted.welcome,
                   }}
+                  data-aos="fade-up"
+                  data-aos-delay="400"
                 >
                   "We cannot solve our problems with the same thinking we used
                   when we created them."—Albert Einstein. Institutions are slow
@@ -173,11 +171,8 @@ const About = () => {
           </Row>
         </Container>
       </section>
-
       <GallerySection />
-
       <QuotesSection quotes={quotes} />
-
       <MyFooter />
     </>
   );

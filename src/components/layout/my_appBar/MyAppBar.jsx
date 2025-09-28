@@ -36,7 +36,7 @@ const MyAppBar = ({ logo }) => {
   return (
     <>
       <Navbar className="my-bg-white border border-bottom py-4">
-        <Container>
+        <Container className="px-md-0">
           <NavLink
             to={"/"}
             className="d-flex justify-content-bewteen align-items-center gap-2"

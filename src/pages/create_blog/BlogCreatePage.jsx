@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import GalleryDropzone from "../../components/common/GalleryDropzone/GalleryDropzone";
+import { createBlog, uploadSingleImage } from "../../utils/blog";
+import { uploadMultipleImages } from "../../utils/blog";
 
 const usingMediaReferences = false; // set true if field_image/field_gallery reference Media instead of File
 const BUNDLE = "blog";
 
 const BlogCreatePage = ({ user }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [status, setStatus] = useState("");
 
   const [title, setTitle] = useState("");
   const [bodyHtml, setBodyHtml] = useState("");
-  //   const [imageFile, setImageFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
-  const [tags, setTags] = useState([]); // available tag options
-  const [categories, setCategories] = useState([]); // available category options
+  const [tags, setTags] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [selectedTagIds, setSelectedTagIds] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -20,10 +22,7 @@ const BlogCreatePage = ({ user }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [message, setMessage] = useState("");
-
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     async function fetchTaxonomyData() {
@@ -57,138 +56,137 @@ const BlogCreatePage = ({ user }) => {
     fetchTaxonomyData();
   }, []);
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const albumField = galleryFiles.map((file) => ({
+      target_id: file,
+    }));
+
+    setInputData((prev) => ({
+      ...prev,
+      field_gallery: albumField,
+    }));
+  }, [galleryFiles]);
+
+  const handleUploadSingleImage = async (event) => {
+    event.preventDefault();
+
     if (!selectedFile) {
-      console.log("there is not image selected");
+      console.log("no file");
       return;
     }
-    // if (!galleryFiles) return;
+
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
+
+    if (!username || !password) {
+      throw new Error("Missing credentials in localStorage");
+    }
+
+    const btoaToken = btoa(`${username}:${password}`);
 
     try {
-      // Upload image
-      const formData = new FormData();
-      formData.append("field_image", selectedFile, selectedFile.name);
+      setStatus("Uploading...");
+      const result = await uploadSingleImage({
+        file: selectedFile,
+        endpoint:
+          "https://tamkeen-dev.com/api/file/upload/node/blog/field_image?_format=json",
+        filename: selectedFile.name,
+        token: btoaToken,
+      });
 
-      const csrfToken = localStorage.getItem("apiToken");
-      const username = localStorage.getItem("username");
-      const password = localStorage.getItem("password");
-      const authToken = btoa(`${username}:${password}`);
-
-      const uploadResponse = await fetch(
-        "https://tamkeen-dev.com/api/file/upload/node/blog/field_image?_format=json",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/octet-stream",
-            "X-CSRF-Token": csrfToken,
-            Authorization: `Basic ${authToken}`,
-            "Content-Disposition": `file; filename=${selectedFile.name}`,
-          },
-          body: selectedFile,
-        }
-      );
-
-      if (uploadResponse.status !== 201) {
-        throw new Error(`Upload failed: ${uploadResponse.statusText}`);
-      }
-
-      const uploadResult = await uploadResponse.json();
-      const uploadedPictureId = uploadResult?.fid?.[0]?.value;
-
-      if (!uploadedPictureId) {
-        throw new Error("No image ID returned from upload");
-      }
-
-      //   const updateResponse = await fetch(
-      //     `https://tamkeen-dev.com/api/user/${user.uid?.[0]?.value}`,
-      //     {
-      //       method: "PATCH",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Basic ${authToken}`,
-      //       },
-      //       body: JSON.stringify(updateBody),
-      //     }
-      //   );
-
-      //   if (!updateResponse.ok) {
-      //     throw new Error(`Profile update failed: ${updateResponse.statusText}`);
-      //   }
-
-      setMessage("✅ Profile updated successfully");
-    } catch (error) {
-      console.error("Upload or update error:", error);
-      setMessage("❌ Failed to update profile");
+      setStatus("Upload successful!");
+      console.log("Server response:", result);
+      setMessage("Blog created");
+      setSuccess("Blog created");
+    } catch (err) {
+      setError("Blog did not created");
+      setMessage("Blog did not created");
+      setStatus(`Error: ${err.message}`);
     }
   };
 
-  //   async function handleSubmit(e) {
-  //     e.preventDefault();
-  //     setError("");
-  //     setSuccess("");
-  //     setSubmitting(true);
+  const handleUploadMultipleImages = async (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
 
-  //     try {
-  //       // 1) Upload main image (optional)
-  //       let imageTargetId = null;
-  //       if (imageFile) {
-  //         const fid = await uploadFileToField({
-  //           file: imageFile,
-  //           bundle: BUNDLE,
-  //           fieldName: usingMediaReferences ? "field_media_image" : "field_image",
-  //         });
-  //         imageTargetId = usingMediaReferences
-  //           ? await createMediaImageFromFile({
-  //               fileId: fid,
-  //               name: imageFile.name,
-  //             })
-  //           : fid;
-  //       }
+    if (!file) return;
 
-  //       // 2) Upload gallery files (optional)
-  //       let galleryTargetIds = [];
-  //       if (galleryFiles?.length) {
-  //         for (const file of galleryFiles) {
-  //           const fid = await uploadFileToField({
-  //             file,
-  //             bundle: BUNDLE,
-  //             fieldName: usingMediaReferences ? "field_gallery" : "field_gallery",
-  //           });
-  //           const targetId = usingMediaReferences
-  //             ? await createMediaImageFromFile({ fileId: fid, name: file.name })
-  //             : fid;
-  //           galleryTargetIds.push(targetId);
-  //         }
-  //       }
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
+    const token = btoa(`${username}:${password}`);
 
-  //       // 3) Create node
-  //       const node = await createBlogNode({
-  //         title,
-  //         bodyHtml,
-  //         imageTargetId,
-  //         galleryTargetIds,
-  //         tagIds: selectedTagIds.map(Number),
-  //         categoryId: selectedCategoryId ? Number(selectedCategoryId) : undefined,
-  //       });
+    setUploading(true);
+    setError(null);
 
-  //       setSuccess(
-  //         `Created blog node with id ${
-  //           node?.nid?.[0]?.value ?? node?.nid ?? node?.id ?? "?"
-  //         }`
-  //       );
-  //       setTitle("");
-  //       setBodyHtml("");
-  //       setImageFile(null);
-  //       setGalleryFiles([]);
-  //       setSelectedTagIds([]);
-  //       setSelectedCategoryId("");
-  //     } catch (e) {
-  //       setError(e.message);
-  //     } finally {
-  //       setSubmitting(false);
-  //     }
-  //   }
+    try {
+      const uploaded = await uploadMultipleImages({ file: file, token: token });
+      setGalleryFiles((prev) => [...prev, ...uploaded]); // adjust if response is nested
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const [inputData, setInputData] = useState({
+    type: [
+      {
+        target_id: "blog",
+      },
+    ],
+    title: [
+      {
+        value: title,
+      },
+    ],
+    body: [
+      {
+        value: null,
+        format: "basic_html",
+      },
+    ],
+    field_image: [
+      {
+        target_id: null,
+      },
+    ],
+    field_gallery: galleryFiles,
+
+    field_tags: [],
+
+    field_category: [
+      {
+        target_id: null,
+      },
+    ],
+  });
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setError(null);
+
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
+
+    if (!username || !password) {
+      throw new Error("Missing credentials in localStorage");
+    }
+
+    const btoaToken = btoa(`${username}:${password}`);
+
+    try {
+      const result = await createBlog({ data: inputData, token: btoaToken });
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.error("Blog creation error:", err);
+      setError(err);
+      return null; // Optional: make return type predictable
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div style={{ maxWidth: 800, margin: "0 auto", padding: 16 }}>
@@ -201,26 +199,37 @@ const BlogCreatePage = ({ user }) => {
         <div style={{ color: "seagreen", marginBottom: 12 }}>{success}</div>
       )}
 
-      <form onSubmit={handleUpload}>
+      <form onSubmit={handleCreateBlog}>
+        {/* Title */}
         <div style={{ marginBottom: 12 }}>
           <label>
             Title
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              //   required
+              value={inputData.title || ""}
+              onChange={(e) =>
+                setInputData((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                }))
+              }
               style={{ width: "100%", padding: 8, marginTop: 4 }}
             />
           </label>
         </div>
 
+        {/* Body */}
         <div style={{ marginBottom: 12 }}>
           <label>
             Body (HTML allowed)
             <textarea
-              value={bodyHtml}
-              onChange={(e) => setBodyHtml(e.target.value)}
+              value={inputData.body || ""}
+              onChange={(e) =>
+                setInputData((prev) => ({
+                  ...prev,
+                  body: e.target.value,
+                }))
+              }
               rows={10}
               placeholder="e.g. The standard Lorem Ipsum passage, <b>used since the 1500s</b>..."
               style={{
@@ -233,29 +242,43 @@ const BlogCreatePage = ({ user }) => {
           </label>
         </div>
 
+        {/* image */}
         <div className="mb-3">
           <label className="form-label">Upload Picture</label>
           <input
             type="file"
             accept="image/*"
             className="form-control"
-            onInput={handleFileChange}
+            onChange={(e) =>
+              setInputData({
+                ...inputData,
+                field_image: e.target.files[0],
+              })
+            }
           />
         </div>
 
+        {/* Album */}
         <GalleryDropzone files={galleryFiles} setFiles={setGalleryFiles} />
 
+        {/* Tags */}
         <div style={{ marginBottom: 12 }}>
           <label>
             Tags
             <select
               multiple
               value={selectedTagIds}
-              onChange={(e) =>
-                setSelectedTagIds(
-                  Array.from(e.target.selectedOptions).map((o) => o.value)
-                )
-              }
+              onChange={(e) => {
+                const selectedIds = Array.from(e.target.selectedOptions).map(
+                  (o) => parseInt(o.value, 10)
+                );
+
+                setSelectedTagIds(selectedIds); // UI state
+                setInputData((prev) => ({
+                  ...prev,
+                  field_tags: selectedIds.map((id) => ({ target_id: id })),
+                }));
+              }}
               style={{ width: "100%", height: 120, marginTop: 4 }}
             >
               {tags.map((t) => (
@@ -267,12 +290,20 @@ const BlogCreatePage = ({ user }) => {
           </label>
         </div>
 
+        {/* Category */}
         <div style={{ marginBottom: 12 }}>
           <label>
             Category
             <select
               value={selectedCategoryId}
-              onChange={(e) => setSelectedCategoryId(e.target.value)}
+              onChange={(e) => {
+                const selectedId = e.target.value;
+                setSelectedCategoryId(selectedId); // keep this if you're tracking separately
+                setInputData((prev) => ({
+                  ...prev,
+                  field_category: [{ target_id: selectedId }],
+                }));
+              }}
               style={{ width: "100%", marginTop: 4 }}
             >
               <option value="">-- Select --</option>
@@ -285,13 +316,16 @@ const BlogCreatePage = ({ user }) => {
           </label>
         </div>
 
-        <button type="button" disabled={submitting}>
+        {/* Create Button */}
+        <button
+          disabled={submitting}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   console.log(inputData);
+          // }}
+        >
           {submitting ? "Creating..." : "Create"}
         </button>
-        <br />
-        <br />
-
-        <button type="submit">upload the main image</button>
       </form>
       {message && <p className="mt-3">{message}</p>}
     </div>

@@ -37,7 +37,14 @@ const StatsSection = () => {
     <Container className="py-5">
       <Row className="justify-content-between">
         {stats.map((stat, index) => (
-          <Col key={index} xs={6} md={2} className="mb-4">
+          <Col
+            key={index}
+            xs={6}
+            md={2}
+            className="mb-4"
+            data-aos="fade-up"
+            data-aos-delay={index * 150} // stagger each stat
+          >
             <div className="mb-2 d-flex gap-3">
               <div>{stat.icon}</div>
               <div>
