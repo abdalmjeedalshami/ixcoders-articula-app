@@ -5,7 +5,7 @@ import "./TrustedSection.css";
 const TrustedSection = ({ title, subtitle, companies }) => {
 
   return (
-    <Container fluid className="py-5 bg-white">
+    <Container fluid className="py-5 bg-white overflow-hidden">
       <Container>
         <Row>
           {/* Left Text Section */}

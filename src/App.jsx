@@ -66,7 +66,17 @@ function App() {
 
           <Route
             path="/my_articles"
-            element={token ? <MyArticles /> : <HomePage />}
+            element={token ? <MyArticles /> : <Login />}
+          />
+
+          <Route
+            path="/articles"
+            element={token ? <Articles /> : <Login />}
+          />
+
+          <Route
+            path="/dashboard"
+            element={token ? <DashboardPage /> : <Login />}
           />
 
           <Route path="/login" element={token ? <HomePage /> : <Login />} />
@@ -78,14 +88,12 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
-          <Route path="/articles" element={<Articles />} />
           <Route path="/blog/:id" element={<BlogPage />} />
           <Route path="/tag/:name" element={<TagPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/create_blog" element={<BlogCreatePage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/category/:id" element={<CategoryArticles />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

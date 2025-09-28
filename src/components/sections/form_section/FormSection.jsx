@@ -38,7 +38,7 @@ const handleSubmit = (data) => {
 
 const FormSection = () => {
   return (
-    <div className="py-5" style={{ backgroundColor: colors.sectionBackground }}>
+    <div className="py-5 overflow-hidden" style={{ backgroundColor: colors.sectionBackground }}>
       {" "}
       {/* Light grey background */}
       <Container>

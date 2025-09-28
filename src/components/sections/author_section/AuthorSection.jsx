@@ -10,7 +10,7 @@ const AuthorSection = ({ image }) => {
   const isArabic = i18n.language === "ar";
 
   return (
-    <Container fluid style={{ backgroundColor: colors.sectionBackground }}>
+    <Container fluid style={{ backgroundColor: colors.sectionBackground }} className="overflow-hidden">
       <Container className="py-5">
         <Row>
           {/* Author */}
