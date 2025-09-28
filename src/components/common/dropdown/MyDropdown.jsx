@@ -93,7 +93,10 @@ function MyDropdown() {
             </div>
           </Dropdown.Toggle>
 
-          <Dropdown.Menu align={isArabic ? "end" : "start"}>
+          <Dropdown.Menu
+            align={isArabic ? "end" : "start"}
+            style={{ marginInlineStart: "-7rem" }}
+          >
             <Dropdown.Item onClick={() => navigate("/account")}>
               My Account
             </Dropdown.Item>
