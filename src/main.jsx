@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App.jsx";
 import { TagProvider } from "./utils/TagContext";
 import "./i18n.js";
+import { UserProvider } from "./utils/UserContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <>
-      <TagProvider>
-        <App />
-      </TagProvider>
+      <UserProvider>
+        <TagProvider>
+          <App />
+        </TagProvider>
+      </UserProvider>
     </>
   </StrictMode>
 );

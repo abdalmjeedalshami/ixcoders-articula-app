@@ -1,5 +1,4 @@
 import { useState } from "react";
-import colors from "../../../theme/colors";
 import { editUser } from "../../../utils/user";
 import MyButton from "../../common/my_button/MyButton";
 
@@ -10,7 +9,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
   const [email, setEmail] = useState("");
   const [currentPass, setCurrentPass] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ loading state
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -18,7 +17,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    setLoading(true); // ✅ start loading
+    setLoading(true);
 
     const success = await editUser({
       selectedFile,
@@ -34,7 +33,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
       setRefreshFlag((prev) => !prev);
     }
 
-    setLoading(false); // ✅ stop loading
+    setLoading(false);
   };
 
   return (
@@ -43,6 +42,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
         <div className="mb-3">
           <label className="form-label">First Name</label>
           <input
+          required
             type="text"
             className="form-control"
             value={firstName}
@@ -53,7 +53,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
 
         <div className="mb-3">
           <label className="form-label">Surname</label>
-          <input
+          <input required
             type="text"
             className="form-control"
             value={surname}
@@ -64,7 +64,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
 
         <div className="mb-3">
           <label className="form-label">Upload Picture</label>
-          <input
+          <input required
             type="file"
             accept="image/*"
             className="form-control"
@@ -87,7 +87,7 @@ const EditProfile = ({ user, setRefreshFlag }) => {
         {email && (
           <div className="mb-3">
             <label className="form-label">Current Password</label>
-            <input
+            <input required
               type="password"
               className="form-control"
               value={currentPass}
@@ -97,10 +97,10 @@ const EditProfile = ({ user, setRefreshFlag }) => {
         )}
 
         <MyButton
-          text={loading ? "Updating..." : "Update Profile"} // ✅ change text
+          text={loading ? "Updating..." : "Update Profile"}
           type="submit"
-          classes="rounded-2"
-          disabled={loading} // ✅ disable button
+          classes="rounded-0"
+          disabled={loading}
         />
       </form>
 

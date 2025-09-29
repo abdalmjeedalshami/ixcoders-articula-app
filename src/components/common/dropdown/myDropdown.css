@@ -1,3 +1,8 @@
+.custom-dropdown {
+    background-color: rgba(255, 124, 124, 0.224);
+    /* padding-inline: 1rem; */
+}
+
 .custom-dropdown .dropdown-toggle,
 .custom-dropdown .dropdown-toggle:hover,
 .custom-dropdown .dropdown-toggle:active {
@@ -6,9 +11,19 @@
     color: black;
 }
 
-.custom-dropdown .dropdown-toggle:hover {
-    color: var(--primary-color);
+.custom-dropdown .dropdown-toggle {
+  transition: all 0.3s ease; /* smooth transition for hover effects */
+  border-radius: 0rem;    /* subtle rounded corners */
 }
+
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:hover {
+  background-color: rgba(255, 124, 124, 0.224); /* light, elegant hover background */
+  color: black;            /* highlight text with primary color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+  transform: translateY(-2px); /* tiny lift effect */
+}
+
 
 
 .custom-dropdown .dropdown-toggle::after {
@@ -20,24 +35,28 @@
 }
 
 .custom-dropdown .dropdown-item {
-    border-left: 3px solid transparent;
+    border-inline-start: 3px solid transparent;
+}
+
+.custom-dropdown .dropdown-item:hover {
+    border-inline-start-color: var(--primary-color);
 }
 
 .custom-dropdown .dropdown-item:hover,
 .custom-dropdown .dropdown-item:focus {
-    border-left-color: var(--primary-color);
     background-color: transparent;
     color: black;
 }
 
+
 .dropdown-menu {
-  right: auto;
-  left: auto;
+    right: auto;
+    left: auto;
 }
 
 .custom-dropdown .dropdown-toggle {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

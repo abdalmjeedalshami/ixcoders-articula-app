@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
-import ArticleCard from "../../cards/article_card/ArticleCard";
 import colors from "../../../theme/colors";
 import { useTranslation } from "react-i18next";
+import ArticleCard from "../../cards/article_card/ArticleCard";
 
 const LatestArticlesSection = ({ articles }) => {
   const { i18n } = useTranslation();
@@ -19,7 +19,7 @@ const LatestArticlesSection = ({ articles }) => {
           </h1>
           <Row className="flex-wrap">
             {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard article={article} variant="simple" />
             ))}
           </Row>
         </Container>

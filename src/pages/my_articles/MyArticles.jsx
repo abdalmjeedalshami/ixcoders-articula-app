@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ArticleCard from "../../components/cards/ArticleCard/ArticleCard";
-import { fetchArticles, fetchUserArticles } from "../../utils/blog";
+import ArticleCard from "../../components/cards/article_card/ArticleCard";
+import { fetchUserArticles } from "../../utils/blog";
 import MyButton from "../../components/common/my_button/MyButton";
 import CreateBlogModal from "../../components/modals/create_blog/BlogModal";
 import BlogToast from "../../components/common/my_toast/MyToast";
@@ -316,7 +316,7 @@ const Articles = ({ myArticles }) => {
           {articles.map((article, index) => (
             <ArticleCard
               article={article}
-              key={article.id}
+              variant="detailed"
               articleKey={index}
             />
           ))}

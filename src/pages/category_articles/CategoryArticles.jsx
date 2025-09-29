@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import ArticleCard from "../../components/cards/ArticleCard/ArticleCard";
+import ArticleCard from "../../components/cards/article_card/ArticleCard";
 import { fetchArticles } from "../../utils/blog";
 
 export default function CategoryArticles() {
@@ -63,7 +63,7 @@ export default function CategoryArticles() {
 
       <div className="row">
         {articles.map((article, index) => (
-          <ArticleCard article={article} key={article.id} articleKey={index} />
+          <ArticleCard article={article} variant="detailed" articleKey={index} />
         ))}
       </div>
     </div>

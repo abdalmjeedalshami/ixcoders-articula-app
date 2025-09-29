@@ -3,7 +3,12 @@ import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
 import "./categoryCard.css";
 
+import { useTranslation } from "react-i18next";
+
 const CategoryCard = ({ big, category }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
   return (
     <Col
       key={category.id}
@@ -46,7 +51,7 @@ const CategoryCard = ({ big, category }) => {
               </p>
               {!big && (
                 <p className="m-0" style={{ color: colors.textMuted.category }}>
-                  {category.articleCount} Articles
+                  {category.articleCount} {isArabic ? "تقرير" : "Articles"}
                 </p>
               )}
             </Col>

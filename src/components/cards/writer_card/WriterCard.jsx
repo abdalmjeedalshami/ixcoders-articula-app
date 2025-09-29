@@ -1,9 +1,13 @@
 import { Card, Row, Col } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import colors from "../../../theme/colors";
-import "./WriterCard.css"
+import "./WriterCard.css";
+import { useTranslation } from "react-i18next";
 
 const WriterCard = ({ writer }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
   return (
     <Card className="writer-card border rounded-0 shadow-sm text-center">
       <Card.Img
@@ -35,7 +39,9 @@ const WriterCard = ({ writer }) => {
             >
               {writer.articlesNum}
             </span>
-            <span style={{ color: colors.textMuted.navbar }}>Articles</span>
+            <span style={{ color: colors.textMuted.navbar }}>
+              {isArabic ? "تقرير" : "Articles"}
+            </span>
           </Col>
         </Row>
       </Card.Footer>

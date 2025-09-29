@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { Container, Row, Badge } from "react-bootstrap";
-import ArticleCard from "./cards/ArticleCard/ArticleCard";
 import MySpinner from "./common/mySpinner/MySpinner";
+import ArticleCard from "./cards/article_card/ArticleCard";
 
 function TagPage() {
   const { name } = useParams();
@@ -49,8 +49,8 @@ function TagPage() {
         <p>No blogs found with this tag.</p>
       ) : (
         <Row xs={1} md={2} lg={3} className="g-4">
-          {blogs.map((blog) => (
-            <ArticleCard article={blog} />
+          {blogs.map((blog, i) => (
+            <ArticleCard article={blog} variant="detailed" articleKey={i} />
           ))}
         </Row>
       )}

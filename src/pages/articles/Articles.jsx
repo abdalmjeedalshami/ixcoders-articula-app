@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
-import ArticleCard from "../../components/cards/ArticleCard/ArticleCard";
-import { fetchArticles, fetchUserArticles } from "../../utils/blog";
+import ArticleCard from "../../components/cards/article_card/ArticleCard";
+import { fetchArticles } from "../../utils/blog";
 import MyButton from "../../components/common/my_button/MyButton";
 import CreateBlogModal from "../../components/modals/create_blog/BlogModal";
 import BlogToast from "../../components/common/my_toast/MyToast";
-import MySpinner from "../../components/common/mySpinner/MySpinner";
 import colors from "../../theme/colors";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import "./Articles.css";
 import Select from "react-select";
+import CategorySelector from "../../components/common/category_selector/CategorySelector";
+import { useTranslation } from "react-i18next";
 
 const MyArticles = ({ myArticles }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
@@ -99,13 +103,16 @@ const MyArticles = ({ myArticles }) => {
   }));
 
   const sortOptions = [
-    { value: "created_date", label: "Created Date" },
-    { value: "title", label: "Title" },
+    {
+      value: "created_date",
+      label: isArabic ? "تاريخ الإنشاء" : "Created Date",
+    },
+    { value: "title", label: isArabic ? "العنوان" : "Title" },
   ];
 
   const sortOrderOptions = [
-    { value: "ASC", label: "Ascending" },
-    { value: "DESC", label: "Descending" },
+    { value: "ASC", label: isArabic ? "تصاعدي" : "Ascending" },
+    { value: "DESC", label: isArabic ? "تنازلي" : "Descending" },
   ];
 
   return (
@@ -113,26 +120,29 @@ const MyArticles = ({ myArticles }) => {
       <BlogToast
         show={articleAdded}
         setShow={setArticleAdded}
-        message="Blog added successfully! 🎉"
+        message={
+          isArabic
+            ? "تمت إضافة المقال بنجاح! 🎉"
+            : "Blog added successfully! 🎉"
+        }
         type="success"
       />
       {/* Header */}
       <div className="d-flex justify-content-between align-items-start mb-4">
         <h1
           className="fw-bold mb-4"
-          data-aos="fade-right" // title slides in from left
+          data-aos="fade-right"
           data-aos-duration="800"
           data-aos-delay="100"
         >
-          Articles
+          {isArabic ? "المقالات" : "Articles"}
         </h1>
 
-        <div
-          data-aos="fade-left" // button slides in from right
-          data-aos-duration="800"
-          data-aos-delay="300"
-        >
-          <MyButton text="Create Blog" onClick={handleOpen} />
+        <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+          <MyButton
+            text={isArabic ? "إنشاء مقال" : "Create Blog"}
+            onClick={handleOpen}
+          />
         </div>
       </div>
       {/* Filters */}
@@ -142,60 +152,45 @@ const MyArticles = ({ myArticles }) => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search title or body..."
+            placeholder={
+              isArabic
+                ? "ابحث في العنوان أو المحتوى..."
+                : "Search title or body..."
+            }
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              setPage(0); // reset to first page
+              setPage(0);
+            }}
+            style={{
+              boxShadow: "none",
+              borderRadius: "0", // optional: makes it square
             }}
           />
         </div>
 
         {/* Category */}
-        <div className="col-md-2">
-          <Select
-            options={[{ value: "", label: "All Categories" }, ...options]}
-            placeholder="Category"
-            onChange={(selected) => {
-              setCategory(selected?.value || "");
-              setPage(0);
-            }}
-            styles={{
-              option: (provided, state) => ({
-                ...provided,
-                backgroundColor: state.isFocused ? colors.secondary : "#fff",
-                color: "#333",
-                cursor: "pointer",
-                borderLeft: state.isFocused
-                  ? "3px solid red"
-                  : "3px solid transparent", // ✅ fixed typo
-              }),
-              control: (provided, state) => ({
-                ...provided,
-                borderRadius: "0",
-                borderColor: state.isFocused ? colors.primary : "#cfcfcf",
-                boxShadow: "none",
-                "&:hover": {
-                  borderColor: colors.primary,
-                },
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: "#333",
-              }),
-              menu: (provided) => ({
-                ...provided,
-                zIndex: 9999, // ensures dropdown isn't hidden
-              }),
-            }}
-          />
-        </div>
+        <CategorySelector
+          variant="filter"
+          categories={categories}
+          selectedCategoryId={category}
+          setSelectedCategoryId={setCategory}
+          onPageReset={() => setPage(0)}
+          label={isArabic ? "كل الفئات" : "All Categories"}
+        />
 
         {/* Tags */}
         <div className="col-md-2">
           <Select
-            options={[{ value: "", label: "All Tags" }, ...tagOptions]}
-            placeholder="Tag"
+            options={[
+              { value: "", label: isArabic ? "كل الوسوم" : "All Tags" },
+              ...tagOptions,
+            ]}
+            value={[
+              { value: "", label: isArabic ? "كل الوسوم" : "All Tags" },
+              ...tagOptions,
+            ].find((option) => option.value === tag)} // ✅ now includes "All Tags"
+            placeholder={isArabic ? "وسم" : "Tag"}
             onChange={(selected) => {
               setTag(selected?.value || "");
               setPage(0);
@@ -206,26 +201,23 @@ const MyArticles = ({ myArticles }) => {
                 backgroundColor: state.isFocused ? colors.secondary : "#fff",
                 color: "#333",
                 cursor: "pointer",
-                borderLeft: state.isFocused
-                  ? "3px solid red"
-                  : "3px solid transparent", // ✅ fixed typo
+                borderInlineStart: state.isFocused
+                  ? `3px solid ${colors.primary}`
+                  : "3px solid transparent",
+                ":active": {
+                  ...provided[":active"],
+                  borderInlineStartColor: "transparent",
+                  backgroundColor: "transparent",
+                },
               }),
               control: (provided, state) => ({
                 ...provided,
-                borderRadius: "0",
+                borderRadius: "",
+                boxShadow: "",
                 borderColor: state.isFocused ? colors.primary : "#cfcfcf",
-                boxShadow: "none",
                 "&:hover": {
                   borderColor: colors.primary,
                 },
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: "#333",
-              }),
-              menu: (provided) => ({
-                ...provided,
-                zIndex: 9999, // ensures dropdown isn't hidden
               }),
             }}
           />
@@ -234,7 +226,6 @@ const MyArticles = ({ myArticles }) => {
         {/* Sort By */}
         <div className="col-md-2">
           <Select
-            className="mb-3"
             options={sortOptions}
             value={sortOptions.find((option) => option.value === sortBy)}
             onChange={(selectedOption) => setSortBy(selectedOption.value)}
@@ -244,26 +235,23 @@ const MyArticles = ({ myArticles }) => {
                 backgroundColor: state.isFocused ? colors.secondary : "#fff",
                 color: "#333",
                 cursor: "pointer",
-                borderLeft: state.isFocused
-                  ? "3px solid red"
-                  : "3px solid transparent", // ✅ fixed typo
+                borderInlineStart: state.isFocused
+                  ? `3px solid ${colors.primary}`
+                  : "3px solid transparent",
+                ":active": {
+                  ...provided[":active"],
+                  borderInlineStartColor: "transparent",
+                  backgroundColor: "transparent",
+                },
               }),
               control: (provided, state) => ({
                 ...provided,
-                borderRadius: "0",
+                borderRadius: "",
+                boxShadow: "",
                 borderColor: state.isFocused ? colors.primary : "#cfcfcf",
-                boxShadow: "none",
                 "&:hover": {
                   borderColor: colors.primary,
                 },
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: "#333",
-              }),
-              menu: (provided) => ({
-                ...provided,
-                zIndex: 9999, // ensures dropdown isn't hidden
               }),
             }}
           />
@@ -284,26 +272,23 @@ const MyArticles = ({ myArticles }) => {
                 backgroundColor: state.isFocused ? colors.secondary : "#fff",
                 color: "#333",
                 cursor: "pointer",
-                borderLeft: state.isFocused
-                  ? "3px solid red"
-                  : "3px solid transparent", // ✅ fixed typo
+                borderInlineStart: state.isFocused
+                  ? `3px solid ${colors.primary}`
+                  : "3px solid transparent",
+                ":active": {
+                  ...provided[":active"],
+                  borderInlineStartColor: "transparent",
+                  backgroundColor: "transparent",
+                },
               }),
               control: (provided, state) => ({
                 ...provided,
-                borderRadius: "0",
+                borderRadius: "",
+                boxShadow: "",
                 borderColor: state.isFocused ? colors.primary : "#cfcfcf",
-                boxShadow: "none",
                 "&:hover": {
                   borderColor: colors.primary,
                 },
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: "#333",
-              }),
-              menu: (provided) => ({
-                ...provided,
-                zIndex: 9999, // ensures dropdown isn't hidden
               }),
             }}
           />
@@ -321,7 +306,7 @@ const MyArticles = ({ myArticles }) => {
           {articles.map((article, index) => (
             <ArticleCard
               article={article}
-              key={article.id}
+              variant="detailed"
               articleKey={index}
             />
           ))}
@@ -338,13 +323,13 @@ const MyArticles = ({ myArticles }) => {
       {articles.length > 0 ? (
         <div className="d-flex justify-content-between align-items-center mt-3">
           <MyButton
-            text="Prev"
+            text={isArabic ? "السابق" : "Prev"}
             disabled={page === 0}
             onClick={() => setPage((p) => p - 1)}
-          ></MyButton>
+          />
 
           <div>
-            Page {/* Jump to page */}
+            {isArabic ? "الصفحة" : "Page"}{" "}
             <div className="d-inline-flex mt-2">
               <input
                 style={{
@@ -363,14 +348,14 @@ const MyArticles = ({ myArticles }) => {
                 }}
               />
             </div>{" "}
-            of {totalPages}
+            {isArabic ? "من" : "of"} {totalPages}
           </div>
 
           <MyButton
-            text="Next"
+            text={isArabic ? "التالي" : "Next"}
             disabled={page + 1 >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-          ></MyButton>
+          />
         </div>
       ) : (
         ""

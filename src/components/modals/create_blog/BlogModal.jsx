@@ -316,6 +316,7 @@ const CreateBlogModal = ({
 
                 {/* Category */}
                 <CategorySelector
+                  variant="form"
                   categories={categories}
                   selectedCategoryId={selectedCategoryId}
                   setSelectedCategoryId={setSelectedCategoryId}

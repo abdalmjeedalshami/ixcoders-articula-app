@@ -7,17 +7,25 @@ import { deleteUserById } from "../../utils/auth";
 import { fetchUser } from "../../utils/user";
 import { AiOutlineClose } from "react-icons/ai";
 import MySpinner from "../../components/common/mySpinner/MySpinner";
+import { useUser } from "../../utils/UserContext";
+import { useTranslation } from "react-i18next";
 
 const Account = () => {
+  const { user, setUser } = useUser();
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
   const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     fetchUser({ setUser, setLoading });
   }, [refreshFlag]);
+
+  /// ToDo: Fix delete account function.
 
   const deleteAccount = async () => {
     try {
@@ -173,25 +181,48 @@ const Account = () => {
       {/* Account Info */}
       <div className="mt-4">
         {[
-          ["User ID", user.uid?.[0]?.value],
-          ["UUID", user.uuid?.[0]?.value],
-          ["Language", user.langcode?.[0]?.value],
-          ["Timezone", user.timezone?.[0]?.value],
+          [isArabic ? "رقم المستخدم" : "User ID", user.uid?.[0]?.value],
+          [isArabic ? "UUID" : "UUID", user.uuid?.[0]?.value],
+          [isArabic ? "اللغة" : "Language", user.langcode?.[0]?.value],
           [
-            "Status",
+            isArabic ? "المنطقة الزمنية" : "Timezone",
+            user.timezone?.[0]?.value,
+          ],
+          [
+            isArabic ? "الحالة" : "Status",
             <span
               className={
                 user.status?.[0]?.value ? "text-success" : "text-danger"
               }
             >
-              {user.status?.[0]?.value ? "Active" : "Inactive"}
+              {user.status?.[0]?.value
+                ? isArabic
+                  ? "نشط"
+                  : "Active"
+                : isArabic
+                ? "غير نشط"
+                : "Inactive"}
             </span>,
           ],
-          ["Mobile", user.field_mobile?.[0]?.value],
-          ["Created", new Date(user.created?.[0]?.value).toLocaleDateString()],
           [
-            "Last Access",
-            new Date(user.access?.[0]?.value).toLocaleDateString(),
+            isArabic ? "الهاتف المحمول" : "Mobile",
+            user.field_mobile?.[0]?.value,
+          ],
+          [
+            isArabic ? "تاريخ الإنشاء" : "Created",
+            user.created?.[0]?.value
+              ? new Date(user.created[0].value).toLocaleDateString(
+                  isArabic ? "ar-EG" : "en-US"
+                )
+              : "-",
+          ],
+          [
+            isArabic ? "آخر وصول" : "Last Access",
+            user.access?.[0]?.value
+              ? new Date(user.access[0].value).toLocaleDateString(
+                  isArabic ? "ar-EG" : "en-US"
+                )
+              : "-",
           ],
         ].map(([label, value], index) => (
           <div
@@ -202,7 +233,9 @@ const Account = () => {
             data-aos-offset="0"
           >
             <div className="col-6 fw-medium">{label}</div>
-            <div className="col-6 text-end">{value}</div>
+            <div className="col-6 d-flex justify-content-end">
+              {value || "-"}
+            </div>
           </div>
         ))}
       </div>
@@ -236,11 +269,11 @@ const Account = () => {
             role="document"
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
           >
-            <div className="modal-content">
+            <div className="modal-content rounded-0">
               <div className="modal-header d-flex justify-content-between">
                 <h5 className="modal-title">Edit Profile</h5>
                 <MyButton
-                  classes="p-0 rounded-2"
+                  classes="p-0 rounded-0"
                   text={
                     <>
                       <AiOutlineClose />
