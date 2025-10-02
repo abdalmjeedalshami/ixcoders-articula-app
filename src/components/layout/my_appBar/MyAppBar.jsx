@@ -52,6 +52,15 @@ const MyAppBar = ({ logo }) => {
             <MyDropdown />
           ) : (
             <div>
+              {path === "/" && (
+                <MyButton
+                  classes="ms-2"
+                  text="Sign In"
+                  color={colors.secondary}
+                  backgroundColor={colors.primary}
+                  route="/login"
+                />
+              )}
               {/* Show Create Account only on login page */}
               {path === "/login" && (
                 <MyButton
