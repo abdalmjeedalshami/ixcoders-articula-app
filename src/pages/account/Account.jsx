@@ -137,9 +137,100 @@ const Account = () => {
     }
   };
 
-  if (loading) return <MySpinner />;
-  if (!user)
-    return <p className="text-center mt-5">Unable to load profile data.</p>;
+  if (loading || !user || !user.uid?.[0]?.value) {
+    return (
+      <div className="container mt-4">
+        <div className="card shadow-sm border-0 p-4">
+          {/* Top bar row */}
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="d-flex align-items-center">
+              {/* Avatar */}
+              <div
+                className="placeholder rounded-circle me-3"
+                style={{ width: "80px", height: "80px" }}
+              ></div>
+
+              {/* Name, username, email */}
+              <div>
+                <div className="placeholder-glow mb-2">
+                  <span className="placeholder col-6" style={{width: "10rem"}}></span>
+                </div>
+                <div className="placeholder-glow mb-2">
+                  <span className="placeholder col-4"></span>
+                </div>
+                <div className="placeholder-glow">
+                  <span className="placeholder col-8"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Edit button */}
+            <div
+              className="placeholder rounded"
+              style={{ width: "100px", height: "38px" }}
+            ></div>
+          </div>
+
+          {/* User details table */}
+          <div className="table-responsive mb-4">
+            <table className="table">
+              <tbody>
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i}>
+                    <td>
+                      <div className="placeholder-glow">
+                        <span className="placeholder col-6 rounded-2"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="placeholder-glow d-flex justify-content-end">
+                        <span className="placeholder col-6 rounded-2"></span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Delete button */}
+          <div className="text-end">
+            <div
+              className="placeholder rounded"
+              style={{ width: "180px", height: "45px" }}
+            ></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // if (error) {
+  //   return (
+  //     <div className="text-center py-5">
+  //       <i className="bi bi-exclamation-circle text-danger fs-1"></i>
+  //       <h5 className="mt-3">
+  //         {isArabic ? "خطأ في تحميل الحساب" : "Account load failed"}
+  //       </h5>
+  //       <p className="text-muted">
+  //         {isArabic
+  //           ? "تعذر تحميل بيانات الحساب. حاول مجددًا لاحقًا."
+  //           : "Unable to load your profile data. Please try again later."}
+  //       </p>
+  //       <button className="btn btn-outline-primary mt-2" onClick={refetch}>
+  //         {isArabic ? "إعادة المحاولة" : "Retry"}
+  //       </button>
+  //     </div>
+  //   );
+  // }
+
+  // if (!user) {
+  //   return (
+  //     <div className="text-center py-5 text-muted">
+  //       {isArabic ? "لا تتوفر بيانات الحساب." : "No account data available."}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="container mx-auto p-5">

@@ -34,6 +34,7 @@ function MyNavbar() {
             placement={isArabic ? "end" : "start"} // Flip side for RTL
           >
             <Offcanvas.Header
+              closeButton
               style={{ backgroundColor: colors.backgrounds.navbar }}
             >
               <Offcanvas.Title id="offcanvasNavbarLabel" className="text-white">

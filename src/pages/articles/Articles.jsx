@@ -122,8 +122,8 @@ const MyArticles = ({ myArticles }) => {
         setShow={setArticleAdded}
         message={
           isArabic
-            ? "تمت إضافة المقال بنجاح! 🎉"
-            : "Blog added successfully! 🎉"
+            ? "تمت إضافة المقال بنجاح! "
+            : "Blog added successfully! "
         }
         type="success"
       />

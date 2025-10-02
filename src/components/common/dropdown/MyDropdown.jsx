@@ -57,6 +57,7 @@ function MyDropdown() {
             placement={isArabic ? "end" : "start"}
           >
             <Offcanvas.Header
+              closeButton
               className={
                 isArabic ? "justify-content-start" : "justify-content-end"
               }

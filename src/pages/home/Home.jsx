@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import WelcomeSection from "../../components/sections/welcom_section/WelcomeSection";
 import AuthorSection from "../../components/sections/author_section/AuthorSection";
 import welcomeImage from "../../assets/images/welcome.jpg";
@@ -465,12 +465,57 @@ const HomePage = () => {
         image={welcomeImage}
       />
 
-      {loading && (
+      {/* {loading && (
         <div className="mb-5">
           <MySpinner />
         </div>
+      )} */}
+      {/* {error && <p className="text-danger">{error}</p>} */}
+
+      {loading || error && (
+        <MySection
+          header={{
+            title: isArabic ? "جارٍ التحميل التصنيفات..." : "Categories",
+          }}
+          body={
+            <Row>
+              {/* Placeholder skeletons */}
+              {[...Array(8)].map((_, i) => (
+                <Col key={i} sm={6} md={4} lg={3} className="mb-3">
+                  <div className="placeholder-glow">
+                    <div className="card shadow-sm border-0 p-3">
+                      <div
+                        className="placeholder rounded w-100"
+                        style={{ height: "50px" }}
+                      ></div>
+                      <div className="placeholder col-7 mt-2"></div>
+                      <div className="placeholder col-4 mt-2"></div>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          }
+        />
       )}
-      {error && <p className="text-danger">{error}</p>}
+
+      {/* {error && (
+        <MySection
+          header={{
+            title: isArabic ? "حدث خطأ" : "Something went wrong",
+          }}
+          body={
+            <div className="text-center text-danger py-4">
+              <i className="bi bi-exclamation-triangle fs-1"></i>
+              <p className="mt-3">
+                {isArabic
+                  ? "تعذر تحميل التصنيفات، حاول مجددًا لاحقًا."
+                  : "Failed to load categories, please try again later."}
+              </p>
+            </div>
+          }
+        />
+      )} */}
 
       {!loading && !error && (
         <MySection
@@ -540,8 +585,9 @@ const HomePage = () => {
           text: isArabic
             ? "آلاف المستخدمين ينتظرون المقالات. ابدأ بالكتابة والكسب الآن!"
             : "Thousands of users waiting for a Articles. Start writing & earning now!.",
-          tail:  {
-            text: isArabic ? "كن مؤلفاً" : "Become an Author"},
+          tail: {
+            text: isArabic ? "كن مؤلفاً" : "Become an Author",
+          },
         }}
       />
 

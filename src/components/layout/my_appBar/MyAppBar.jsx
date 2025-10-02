@@ -4,8 +4,11 @@ import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
 import MyDropdown from "../../common/dropdown/MyDropdown";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 
 const MyAppBar = ({ logo }) => {
+  const location = useLocation();
+  const path = location.pathname;
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -49,22 +52,29 @@ const MyAppBar = ({ logo }) => {
             <MyDropdown />
           ) : (
             <div>
-              <MyButton
-                classes={"ms-2"}
-                text="Create Account"
-                color={colors.primary}
-                backgroundColor={colors.secondary}
-                route="/register"
-                hoverColor="white"
-                hoverBackgroundColor={colors.primary}
-              />
-              <MyButton
-                classes={"ms-2"}
-                text="Sign In"
-                color={colors.secondary}
-                backgroundColor={colors.primary}
-                route="/login"
-              />
+              {/* Show Create Account only on login page */}
+              {path === "/login" && (
+                <MyButton
+                  classes="ms-2"
+                  text="Create Account"
+                  color={colors.primary}
+                  backgroundColor={colors.secondary}
+                  route="/register"
+                  hoverColor="white"
+                  hoverBackgroundColor={colors.primary}
+                />
+              )}
+
+              {/* Show Sign In only on register page */}
+              {path === "/register" && (
+                <MyButton
+                  classes="ms-2"
+                  text="Sign In"
+                  color={colors.secondary}
+                  backgroundColor={colors.primary}
+                  route="/login"
+                />
+              )}
             </div>
           )}
         </Container>
