@@ -7,7 +7,7 @@ import { useTags } from "../../utils/TagContext";
 import colors from "../../theme/colors";
 import "./BlogDetails.css";
 import MySpinner from "../../components/common/mySpinner/MySpinner";
-import def_blog_image from "../../../public/images/def_blog_image.jpg";
+import def_blog_image from "../../assets/images/def_blog_image.jpg";
 import EditBlogModal from "../../models/EditBlogModal";
 
 const BlogDetails = ({ data, fetchData }) => {

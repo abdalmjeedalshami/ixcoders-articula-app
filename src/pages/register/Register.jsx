@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import registerImage from "../../../public/images/register/register.png";
+import registerImage from "../../assets/images/register/register.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
 import { registerUser } from "../../utils/auth";

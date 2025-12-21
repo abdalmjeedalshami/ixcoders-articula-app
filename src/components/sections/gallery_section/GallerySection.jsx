@@ -1,11 +1,11 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import img1 from "../../../../public/images/about_us/img1.jpg";
-import img2 from "../../../../public/images/about_us/img2.jpg";
-import img3 from "../../../../public/images/about_us/img3.jpg";
-import img4 from "../../../../public/images/about_us/img4.jpg";
-import img5 from "../../../../public/images/about_us/img5.jpg";
-import img6 from "../../../../public/images/about_us/img6.jpg";
-import img7 from "../../../../public/images/about_us/img7.jpg";
+import img1 from "../../../assets/images/about_us/img1.jpg";
+import img2 from "../../../assets/images/about_us/img2.jpg";
+import img3 from "../../../assets/images/about_us/img3.jpg";
+import img4 from "../../../assets/images/about_us/img4.jpg";
+import img5 from "../../../assets/images/about_us/img5.jpg";
+import img6 from "../../../assets/images/about_us/img6.jpg";
+import img7 from "../../../assets/images/about_us/img7.jpg";
 import colors from "../../../theme/colors";
 import MyButton from "./../../common/my_button/MyButton";
 import { FaArrowRight } from "react-icons/fa6";

@@ -1,5 +1,5 @@
 import BasicSection from "../../components/sections/basic_section/BasicSection";
-import notFoundImage from "../../../public/images/not_found/not_found.png";
+import notFoundImage from "../../assets/images/not_found/not_found.png";
 import colors from "../../theme/colors";
 
 const NotFound = () => {

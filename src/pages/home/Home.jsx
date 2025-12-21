@@ -19,29 +19,34 @@ import JobCard from "../../components/cards/job_card/JobCard";
 import MySwiper from "@components/sliders/my_swiper/MySwiper";
 import { Helmet } from "react-helmet";
 import MySpinner from "../../components/common/mySpinner/MySpinner";
+
 import articleImage from "../../assets/images/article_image.png";
-import articleImage2 from "../../../public/images/articles_images/books.png";
-import articleImage3 from "../../../public/images/articles_images/children.png";
-import articleImage4 from "../../../public/images/articles_images/person_glasses.png";
-import articleImage5 from "../../../public/images/articles_images/searching.png";
-import articleImage6 from "../../../public/images/articles_images/sharing.png";
-import articleImage7 from "../../../public/images/articles_images/sharing_2.png";
-import articleImage8 from "../../../public/images/articles_images/sharing_3.png";
-import articleImage9 from "../../../public/images/articles_images/teaching.png";
-import articleImage10 from "../../../public/images/articles_images/writing.png";
-import writer1 from "../../../public/images/persons/person.jpg";
-import writer2 from "../../../public/images/persons/person_2.jpg";
-import writer3 from "../../../public/images/persons/person_3.jpg";
-import writer4 from "../../../public/images/persons/person_4.jpg";
-import writer5 from "../../../public/images/persons/person_5.jpg";
+import articleImage2 from "../../assets/images/articles_images/books.png";
+import articleImage3 from "../../assets/images/articles_images/children.png";
+import articleImage4 from "../../assets/images/articles_images/person_glasses.png";
+import articleImage5 from "../../assets/images/articles_images/searching.png";
+import articleImage6 from "../../assets/images/articles_images/sharing.png";
+import articleImage7 from "../../assets/images/articles_images/sharing_2.png";
+import articleImage8 from "../../assets/images/articles_images/sharing_3.png";
+import articleImage9 from "../../assets/images/articles_images/teaching.png";
+import articleImage10 from "../../assets/images/articles_images/writing.png";
+
+import writer1 from "../../../src/assets/images/persons/person.jpg"
+import writer2 from "../../../src/assets/images/persons/person_2.jpg"
+import writer3 from "../../../src/assets/images/persons/person_3.jpg"
+import writer4 from "../../../src/assets/images/persons/person_4.jpg"
+import writer5 from "../../../src/assets/images/persons/person_5.jpg"
+
 import companyLogo from "../../assets/icons/AMG.CO.svg";
-import companyLogo1 from "../../../public/icons/companies/CompanyLogo(1).svg";
-import companyLogo2 from "../../../public/icons/companies/CompanyLogo(2).svg";
-import companyLogo3 from "../../../public/icons/companies/CompanyLogo(3).svg";
-import companyLogo4 from "../../../public/icons/companies/CompanyLogo(4).svg";
-import companyLogo5 from "../../../public/icons/companies/CompanyLogo(5).svg";
-import companyLogo6 from "../../../public/icons/companies/CompanyLogo(6).svg";
-import companyLogo7 from "../../../public/icons/companies/CompanyLogo(7).svg";
+
+import companyLogo1 from "../../../src/assets/images/companies/companyLogo(1).svg";
+import companyLogo2 from "../../../src/assets/images/companies/companyLogo(2).svg";
+import companyLogo3 from "../../../src/assets/images/companies/companyLogo(3).svg";
+import companyLogo4 from "../../../src/assets/images/companies/companyLogo(4).svg";
+import companyLogo5 from "../../../src/assets/images/companies/companyLogo(5).svg";
+import companyLogo6 from "../../../src/assets/images/companies/companyLogo(6).svg";
+import companyLogo7 from "../../../src/assets/images/companies/companyLogo(7).svg";
+
 import { useTranslation } from "react-i18next";
 
 const categoryImages = [

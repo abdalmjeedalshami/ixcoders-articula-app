@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import loginImage from "../../../public/images/login/login.png";
+import loginImage from "../../assets/images/login/login.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
 import { useNavigate } from "react-router";

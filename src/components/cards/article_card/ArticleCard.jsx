@@ -5,7 +5,8 @@ import { NavLink } from "react-router";
 import colors from "../../../theme/colors";
 import MyTag from "../../common/my_tag/MyTag";
 import MyButton from "../../common/my_button/MyButton";
-import def_blog_image from "../../../../public/images/def_blog_image.jpg";
+import def_blog_image from "../../../assets/images/def_blog_image.jpg";
+
 import "./articleCard.css";
 
 const ArticleCard = ({

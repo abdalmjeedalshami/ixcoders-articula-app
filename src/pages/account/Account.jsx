@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MyButton from "../../components/common/my_button/MyButton";
 import EditProfile from "../../components/cards/edit_profile/EditProfile";
 import { useNavigate } from "react-router";
-import profileImage from "../../../public/images/profile.webp";
+import profileImage from "../../assets/images/profile.webp";
 import { deleteUserById } from "../../utils/auth";
 import { fetchUser } from "../../utils/user";
 import { AiOutlineClose } from "react-icons/ai";
