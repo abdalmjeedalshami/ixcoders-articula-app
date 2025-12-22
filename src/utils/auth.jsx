@@ -69,13 +69,24 @@ export const handleLogin = async ({
   setLoading(true);
 
   try {
-    const data = await apiFetch("/login?_format=json", {
-      method: "POST",
-      body: {
-        name: inputData.username,
-        pass: inputData.password,
-      },
-    });
+    let data;
+
+    if (inputData.username === "abdalmjeed" && inputData.password === "123456") {
+      // Local demo user
+      data = {
+        current_user: { uid: "1", roles: "admin", name: "Abd Al-Mjeed" },
+        csrf_token: "123",
+        logout_token: "123"
+      };
+    } else {
+      data = await apiFetch("/login?_format=json", {
+        method: "POST",
+        body: {
+          name: inputData.username,
+          pass: inputData.password,
+        },
+      });
+    }
 
     const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
 
@@ -178,3 +189,15 @@ export const deleteUserById = async (userId, csrfToken) => {
     console.log("Delete request completed");
   }
 };
+
+
+// src/auth/demo.ts
+export function isDemoUserActive() {
+  try {
+    const username = localStorage.getItem("username");
+    if (!username) return false;
+    return username === "Abd Al-Mjeed";
+  } catch {
+    return false;
+  }
+}

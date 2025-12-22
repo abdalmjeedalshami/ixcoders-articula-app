@@ -22,7 +22,61 @@ const Account = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
-    fetchUser({ setUser, setLoading });
+    const username = localStorage.getItem('username')
+    if (username === "Abd Al-Mjeed") {
+      setUser({
+        uid: [{ value: "13" }],
+        uuid: [{ value: "5857f9c2-36f0-4308-baa0-2467cd0ac6fe" }],
+        langcode: [{ value: "en" }],
+        preferred_langcode: [
+          {
+            value: "en"
+          }],
+        preferred_admin_langcode: [],
+        field_name: [{ value: "Abd Al-Mjeed" }],
+        field_surname: [{ value: "Al-Shami" }],
+        name: [{ value: "abdalmjeed" }],
+        mail: [{ value: "abd.almjeed.alshami.1@gmail.com" }],
+        field_mobile: [{ value: "+963 938 957 460" }],
+        timezone: [{ value: "Europe/Istanbul" }],
+        created: [{
+          value: "2025-07-08T20:20:21+00:00",
+          format: "Y-m-d\\TH:i:sP"
+        }],
+        access: [{
+          value: "2025-07-08T20:40:53+00:00",
+          format: "Y-m-d\\TH:i:sP"
+        }],
+        default_langcode: [
+          {
+            value: true
+          }
+        ],
+        path: [
+          {
+            alias: "",
+            pid: null,
+            langcode: "en"
+          }
+        ],
+        field_gender: [
+          {
+            target_id: 9,
+            target_type: "taxonomy_term",
+            target_uuid: "f85eac56-91a7-4d6b-b9ed-25b33b01e0ad",
+            url: "/api/taxonomy/term/9"
+          }
+        ],
+      })
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000); // 1000 ms = 1 second
+
+    } else {
+      fetchUser({ setUser, setLoading });
+
+    }
   }, [refreshFlag]);
 
   /// ToDo: Fix delete account function.
@@ -153,7 +207,7 @@ const Account = () => {
               {/* Name, username, email */}
               <div>
                 <div className="placeholder-glow mb-2">
-                  <span className="placeholder col-6" style={{width: "10rem"}}></span>
+                  <span className="placeholder col-6" style={{ width: "10rem" }}></span>
                 </div>
                 <div className="placeholder-glow mb-2">
                   <span className="placeholder col-4"></span>
@@ -291,8 +345,8 @@ const Account = () => {
                   ? "نشط"
                   : "Active"
                 : isArabic
-                ? "غير نشط"
-                : "Inactive"}
+                  ? "غير نشط"
+                  : "Inactive"}
             </span>,
           ],
           [
@@ -303,16 +357,16 @@ const Account = () => {
             isArabic ? "تاريخ الإنشاء" : "Created",
             user.created?.[0]?.value
               ? new Date(user.created[0].value).toLocaleDateString(
-                  isArabic ? "ar-EG" : "en-US"
-                )
+                isArabic ? "ar-EG" : "en-US"
+              )
               : "-",
           ],
           [
             isArabic ? "آخر وصول" : "Last Access",
             user.access?.[0]?.value
               ? new Date(user.access[0].value).toLocaleDateString(
-                  isArabic ? "ar-EG" : "en-US"
-                )
+                isArabic ? "ar-EG" : "en-US"
+              )
               : "-",
           ],
         ].map(([label, value], index) => (

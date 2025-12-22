@@ -10,6 +10,8 @@ import "./Articles.css";
 import Select from "react-select";
 import CategorySelector from "../../components/common/category_selector/CategorySelector";
 import { useTranslation } from "react-i18next";
+import { isDemoUserActive } from "../../../src/utils/auth"
+import {searchArticlesLocal} from "../../mock/searchLocal"
 
 const MyArticles = ({ myArticles }) => {
   const { i18n } = useTranslation();
@@ -75,18 +77,42 @@ const MyArticles = ({ myArticles }) => {
   // Fetch whenever filters change
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
-      fetchArticles({
-        setArticles,
-        setTotalPages,
-        setLoading,
-        search,
-        category,
-        tag,
-        sortBy,
-        sortOrder,
-        page,
-        itemsPerPage,
-      });
+      try {
+        if (isDemoUserActive) {
+          const res = searchArticlesLocal({
+            search,
+            category,
+            tag,
+            sortBy,
+            sortOrder,
+            page,
+            itemsPerPage,
+          });
+
+          console.log(res.items)
+
+          setArticles(res.items);
+          setTotalPages(res.totalPages);
+
+        } else {
+          fetchArticles({
+            setArticles,
+            setTotalPages,
+            setLoading,
+            search,
+            category,
+            tag,
+            sortBy,
+            sortOrder,
+            page,
+            itemsPerPage,
+          });
+        }
+      } catch (e) {
+        console.error("Articles fetch failed:", e)
+      } finally {
+        setLoading(false);
+      }
     }, 1500); // debounce for live search
 
     return () => clearTimeout(delayDebounce);
