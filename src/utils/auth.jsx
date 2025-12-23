@@ -78,15 +78,16 @@ export const handleLogin = async ({
         csrf_token: "123",
         logout_token: "123"
       };
-    } else {
-      data = await apiFetch("/login?_format=json", {
-        method: "POST",
-        body: {
-          name: inputData.username,
-          pass: inputData.password,
-        },
-      });
-    }
+    } 
+    // else {
+    //   data = await apiFetch("/login?_format=json", {
+    //     method: "POST",
+    //     body: {
+    //       name: inputData.username,
+    //       pass: inputData.password,
+    //     },
+    //   });
+    // }
 
     const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
 
