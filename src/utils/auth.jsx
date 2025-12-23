@@ -1,60 +1,62 @@
 import { apiFetch } from "../services/api";
 
-export const registerUser = async ({
-  event,
-  inputData,
-  setLoading,
-  setMessage,
-  setRegisterError,
-  setUser,
-  resetInputData,
-}) => {
-  event.preventDefault();
-  setRegisterError(null); // Clear any previous errors
-  setLoading(true);
+// export const registerUser = async ({
+//   event,
+//   inputData,
+//   setLoading,
+//   setMessage,
+//   setRegisterError,
+//   setUser,
+//   resetInputData,
+// }) => {
+//   event.preventDefault();
+//   setRegisterError(null); // Clear any previous errors
+//   setLoading(true);
 
-  try {
-    const data = await apiFetch("/registerpass?_format=json", {
-      method: "POST",
-      body: {
-        name: { value: inputData.name },
-        field_name: { value: inputData.field_name },
-        field_surname: { value: inputData.field_surname },
-        mail: { value: inputData.mail },
-        field_mobile: { value: inputData.field_mobile },
-        field_gender: { target_id: inputData.field_gender.target_id },
-        pass: { value: inputData.pass.value },
-      },
-    });
+//   try {
+//     const data = await apiFetch("/registerpass?_format=json", {
+//       method: "POST",
+//       body: {
+//         name: { value: inputData.name },
+//         field_name: { value: inputData.field_name },
+//         field_surname: { value: inputData.field_surname },
+//         mail: { value: inputData.mail },
+//         field_mobile: { value: inputData.field_mobile },
+//         field_gender: { target_id: inputData.field_gender.target_id },
+//         pass: { value: inputData.pass.value },
+//       },
+//     });
 
-    setUser({
-      uid: data.uid,
-      uuid: data.uuid,
-      langcode: data.langcode,
-      name: data.name,
-      created: data.created,
-      changed: data.changed,
-      default_langcode: data.default_langcode,
-      path: data.path,
-      field_gender: data.field_gender,
-      field_mobile: data.field_mobile,
-      field_name: data.field_name,
-      field_surname: data.field_surname,
-      user_picture: data.user_picture,
-    });
+//     setUser({
+//       uid: data.uid,
+//       uuid: data.uuid,
+//       langcode: data.langcode,
+//       name: data.name,
+//       created: data.created,
+//       changed: data.changed,
+//       default_langcode: data.default_langcode,
+//       path: data.path,
+//       field_gender: data.field_gender,
+//       field_mobile: data.field_mobile,
+//       field_name: data.field_name,
+//       field_surname: data.field_surname,
+//       user_picture: data.user_picture,
+//     });
 
-    setMessage(
-      "✅ Account created successfully. An activation email has been sent to your inbox."
-    );
+//     setMessage(
+//       "✅ Account created successfully. An activation email has been sent to your inbox."
+//     );
 
-    resetInputData();
-  } catch (error) {
-    setRegisterError(error.message);
-    console.error("Registration error:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+//     resetInputData();
+//   } catch (error) {
+//     setRegisterError(error.message);
+//     console.error("Registration error:", error);
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+export const registerUser = async ({ return})
 
 export const handleLogin = async ({
   event,
