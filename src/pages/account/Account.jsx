@@ -3,7 +3,7 @@ import MyButton from "../../components/common/my_button/MyButton";
 import EditProfile from "../../components/cards/edit_profile/EditProfile";
 import { useNavigate } from "react-router";
 import profileImage from "../../assets/images/profile.webp";
-import { deleteUserById } from "../../utils/auth";
+// import { deleteUserById } from "../../utils/auth";
 import { fetchUser } from "../../utils/user";
 import { AiOutlineClose } from "react-icons/ai";
 import MySpinner from "../../components/common/mySpinner/MySpinner";
@@ -396,7 +396,7 @@ const Account = () => {
         <MyButton
           text="Delete My Account"
           backgroundColor="red"
-          onClick={deleteMyAccount}
+          // onClick={deleteMyAccount}
         />
       </div>
 
