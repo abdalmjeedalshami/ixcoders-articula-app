@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Offcanvas, Dropdown, Button } from "react-bootstrap";
 import profileImage from "../../../assets/images/profile.webp";
-// import { handleLogout } from "../../../utils/auth";
+import { handleLogout } from "../../../utils/auth";
 import "./myDropdown.css";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../../../utils/UserContext";

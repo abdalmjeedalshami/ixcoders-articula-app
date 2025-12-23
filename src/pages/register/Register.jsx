@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import registerImage from "../../assets/images/register/register.png";
 import colors from "../../theme/colors";
 import MyButton from "../../components/common/my_button/MyButton";
-// import { registerUser } from "../../utils/auth";
+import { registerUser } from "../../utils/auth";
 
 const Register = () => {
   const [inputData, setInputData] = useState({
@@ -122,15 +122,15 @@ const Register = () => {
     });
 
   const onSubmit = (e) => {
-    // registerUser({
-    //   event: e,
-    //   inputData,
-    //   setLoading,
-    //   setMessage,
-    //   setRegisterError,
-    //   setUser,
-    //   resetInputData,
-    // });
+    registerUser({
+      event: e,
+      inputData,
+      setLoading,
+      setMessage,
+      setRegisterError,
+      setUser,
+      resetInputData,
+    });
   };
 
   useEffect(() => {
