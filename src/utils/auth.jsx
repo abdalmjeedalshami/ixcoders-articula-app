@@ -71,14 +71,25 @@ export const handleLogin = async ({
   try {
     let data;
 
-    if (inputData.username === "abdalmjeed" && inputData.password === "123456") {
+    if (
+      inputData.username === "abdalmjeed" &&
+      inputData.password === "123456"
+    ) {
+      console.log(inputData.username);
+      console.log(inputData.password);
       // Local demo user
       data = {
-        current_user: { uid: "1", roles: "admin", name: "Abd Al-Mjeed" },
+        current_user: { uid: "1", roles: "admin", name: "abdalmjeed" },
         csrf_token: "123",
-        logout_token: "123"
+        logout_token: "123",
       };
-    } 
+      if (!data) {
+        throw new Error("Login failed");
+      }
+    } else {
+      throw new Error("Invalid username or password");
+    }
+
     // else {
     //   data = await apiFetch("/login?_format=json", {
     //     method: "POST",
@@ -190,7 +201,6 @@ export const deleteUserById = async (userId, csrfToken) => {
     console.log("Delete request completed");
   }
 };
-
 
 // src/auth/demo.ts
 export function isDemoUserActive() {
