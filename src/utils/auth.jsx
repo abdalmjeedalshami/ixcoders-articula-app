@@ -90,16 +90,6 @@ export const handleLogin = async ({
       throw new Error("Invalid username or password");
     }
 
-    // else {
-    //   data = await apiFetch("/login?_format=json", {
-    //     method: "POST",
-    //     body: {
-    //       name: inputData.username,
-    //       pass: inputData.password,
-    //     },
-    //   });
-    // }
-
     const basicAuth = btoa(`${inputData.username}:${inputData.password}`);
 
     setUser({
